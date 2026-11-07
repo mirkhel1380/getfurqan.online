@@ -7,7 +7,7 @@ could not be verified from this environment.
 
 Features include Uthmani/IndoPak/Tajweed Quran reading, translations in 13 languages,
 recitation, published tafsir, adhkar, search, local study notes and progress.
-The home page adds a weekly ayah, an eight-topic Islamic learning section and
+The home page adds a weekly ayah, an Islamic learning section with 18 topic guides and
 a Hadith library covering all ten collections in the chosen published source
 (36,108 entries with Arabic and/or English text; full numbering has gaps).
 See `docs/hadith-library.md` for coverage and delivery limits.
@@ -28,3 +28,5 @@ The auth SDK is pinned and locally vendored with its license. To reproduce:
 `npm ci`, then `npm run vendor:auth`.
 
 Complete technical Quran/source/font review: see `docs/quran-corpus-review.md`.
+
+The expanded 18 topic guides,108 sections and13 language coverage are documented in `docs/expanded-topics.md`.
