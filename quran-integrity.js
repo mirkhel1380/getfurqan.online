@@ -17,6 +17,33 @@
   if(!chapter||!integer(v,1,chapter.verses_count)||key!==c+':'+v)fail();
   return [c,v];
  }
+ function textRows(rows,book,target,{field='text_uthmani',complete=false}={}){
+  if(!Array.isArray(rows)||!rows.length)fail();
+  const seen=new Set();let previous=0;
+  for(const v of rows){
+   const [c,n]=reference(v.verse_key,book),order=c*1000+n;
+   if(seen.has(v.verse_key)||order<=previous||!supplied(v[field])||v.verse_number!==undefined&&v.verse_number!==n)fail();
+   if(target?.type==='chapter'&&c!==Number(target.number)||target?.type==='verse'&&v.verse_key!==target.number)fail();
+   seen.add(v.verse_key);previous=order;
+  }
+  if(target?.type==='verse'&&rows.length!==1)fail();
+  if(complete){
+   const expected=target?.type==='chapter'?book.filter(c=>c.id===Number(target.number)):book;
+   if(!expected.length||rows.length!==expected.reduce((n,c)=>n+c.verses_count,0))fail();
+   for(const c of expected)for(let v=1;v<=c.verses_count;v++)if(!seen.has(c.id+':'+v))fail();
+  }
+  return rows;
+ }
+ function audioRows(rows,book,chapter){
+  const meta=book.find(c=>c.id===Number(chapter));
+  if(!meta||!Array.isArray(rows)||rows.length!==meta.verses_count)fail();
+  for(let i=0;i<rows.length;i++){
+   const r=rows[i];reference(r.verse_key,book);
+   if(r.verse_key!==meta.id+':'+(i+1)||!supplied(r.url))fail();
+   if(new URL(r.url,'https://verses.quran.com/').protocol!=='https:')fail();
+  }
+  return rows;
+ }
  function passage(rows,book,target,script='uthmani'){
   if(!Array.isArray(rows)||!rows.length||!['uthmani','indopak','tajweed'].includes(script))fail();
   const seen=new Set();let previous=0;
@@ -37,5 +64,5 @@
   if(target?.type==='verse'&&rows.length!==1)fail();
   return rows;
  }
- root.AFQuranIntegrity=Object.freeze({chapters,reference,passage});
+ root.AFQuranIntegrity=Object.freeze({chapters,reference,textRows,audioRows,passage});
 })(typeof window==='undefined'?globalThis:window);

@@ -7,7 +7,7 @@
   "reference_lines": 6236,
   "no_replacement_characters": true,
   "source_unchanged": true,
-  "scope": "Reference export structure only. No assertion of full equality with Quran.Foundation or scholarly proofreading. Quran.Foundation bulk endpoint returned HTTP403 in this environment. Existing browser reader source loaded successfully.",
+  "scope": "Initial reference-export check, superseded by docs/quran-corpus-review.json and docs/font-coverage-review.json. Complete current-source structure, endpoint equality and font codepoint coverage were subsequently checked on2026-11-07. Scholarly proofreading remains pending.",
   "browser_sample": {
     "reference": "1:2",
     "scripts": [

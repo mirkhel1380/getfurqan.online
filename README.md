@@ -17,8 +17,8 @@ Optional verified accounts and private user administration use a separate
 Supabase project. Public email registration is enabled with Resend SMTP; new users must confirm their email before signing in.
 The owner email has been explicitly approved and reserved; invitation acceptance
 and email verification activate its administrator membership. See `docs/accounts-setup.md`.
-Bookmarks, notes and reading progress remain browser-local; sign-in does not
-provide cross-device synchronization.
+Guest bookmarks, notes and reading progress remain browser-local. Verified users
+can opt into private account synchronization, explicit browser import and conflict review.
 
 Published Quran and translation text is never generated or manually rewritten.
 Qualified full-corpus Quran proofreading remains pending; this is not a
@@ -26,3 +26,5 @@ certified Mushaf. External providers and fonts require network access.
 
 The auth SDK is pinned and locally vendored with its license. To reproduce:
 `npm ci`, then `npm run vendor:auth`.
+
+Complete technical Quran/source/font review: see `docs/quran-corpus-review.md`.

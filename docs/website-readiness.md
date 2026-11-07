@@ -17,7 +17,7 @@ Browser checks: report4560 displayed exact source text, Arabic, explanation, ben
 
 Responsive browser frames at320/390/768px showed no page overflow. Narrow controls meet44px height; wider copy control was adjusted to44px too. This is a desktop browser responsive check, not testing on physical Android/iPhone devices. Dark selector colors were inspected. Quran1:2 loaded in allthree source script modes after adding the guards.
 
-The reference Tanzil Uthmani1.1 download had6236 nonempty source lines without replacement characters; its original source file was not rewritten. Hash/provenance are in `docs/quran-technical-review.json`. The Quran.Foundation bulk API returned HTTP403 from this environment; a complete cross-source equality audit was not completed. The working browser reader and targeted structural rejection tests were checked. None of this constitutes an independent scholarly, letter-by-letter certification of the whole Quran.
+The initial reference-export check is retained in `docs/quran-technical-review.json`. A subsequent pass completed the full6236-verse source structure/endpoint comparison, exact Tanzil comparison and all1210 matching font codepoint checks. See `docs/quran-corpus-review.md` and its JSON/font manifests for results, differences and limits. None of this constitutes an independent scholarly, letter-by-letter certification of the whole Quran.
 
 ## Items requiring something beyond implementation
 

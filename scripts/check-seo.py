@@ -39,7 +39,15 @@ for p in root.rglob('*.html'):
  if name not in {'404.html','hadiths.html','hadith-translations.html'}:
   before=subprocess.check_output(['git','show','HEAD:dist/'+name],text=True)
   main=lambda value:re.search(r'<main\b.*?</main>',value,re.S)[0]
-  assert main(before)==main(s),(name,'page/source content changed')
+  prior,current=main(before),main(s)
+  if name in {'reader.html','translations.html'}:
+   # Only owned source-review status changed; keep the remaining controls,
+   # references and content exact against the previously published page.
+   old_reader='Development preview: independent comparison and review by a qualified Quran proofreader remain pending. Bookmarks and preferences are stored on this browser, without an account.'
+   old_translations='The display and language choices have been tested. Full independent comparison and review by a qualified Quran proofreader remain pending. Arabic text and fonts are provided by Quran.Foundation.'
+   updated='Technical checks cover all 6,236 verses. Differences between published editions are recorded for qualified review. Source text is unchanged; full scholarly proofreading is still pending.'
+   prior=prior.replace('<p>'+old_reader+'</p>','<p>'+updated+'</p><p>Guest reading stays in this browser. Private account sync is optional.</p>').replace(old_translations,updated)
+  assert prior==current,(name,'page/source content changed')
 assert not subprocess.check_output(['git','diff','--','dist/content','dist/editions.js','dist/adhkar-data.js'])
 state=lambda:{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
 before=state();subprocess.run(['python','scripts/build-seo.py'],check=True,stdout=subprocess.DEVNULL);assert before==state(),'SEO builder must be idempotent'

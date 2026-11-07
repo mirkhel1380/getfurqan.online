@@ -1,0 +1,92 @@
+{
+  "tool_versions": {
+    "fontTools": "4.61.1",
+    "Brotli": "1.2.1",
+    "requests": "2.34.2"
+  },
+  "checked_at": "2026-11-07T06:06:36Z",
+  "source_documentation": "https://github.com/quran/qf-api-docs/blob/main/docs/tutorials/fonts/font-rendering.md",
+  "asset_manifest": "font-download-manifest.json",
+  "font_assets_expected": 1210,
+  "downloaded_and_parsed": 1210,
+  "download_errors": [],
+  "corpus": {
+    "verses": 6236,
+    "source_word_items": 83665,
+    "glyph_word_items": 77429,
+    "end_markers": 6236
+  },
+  "unique_verse_keys": 6236,
+  "duplicate_verse_keys": [],
+  "complete_6236_verse_coverage": true,
+  "families": [
+    {
+      "family": "uthmani",
+      "assets": 604,
+      "valid_assets": 604,
+      "bytes": 97748636,
+      "source_character_occurrence_sets": 81950,
+      "checked_source_pages": 604,
+      "missing_codepoints": 0
+    },
+    {
+      "family": "tajweed",
+      "assets": 604,
+      "valid_assets": 604,
+      "bytes": 50878540,
+      "source_character_occurrence_sets": 81950,
+      "checked_source_pages": 604,
+      "missing_codepoints": 0
+    },
+    {
+      "family": "indopak",
+      "assets": 1,
+      "valid_assets": 1,
+      "bytes": 83560,
+      "source_character_occurrence_sets": 418,
+      "checked_source_pages": 1,
+      "missing_codepoints": 0
+    },
+    {
+      "family": "markers",
+      "assets": 1,
+      "valid_assets": 1,
+      "bytes": 87760,
+      "source_character_occurrence_sets": 10,
+      "checked_source_pages": 1,
+      "missing_codepoints": 0
+    }
+  ],
+  "missing_codepoints": [],
+  "tajweed_colrv1_assets": 0,
+  "tajweed_assets_with_dark_palette": 604,
+  "limitations": [
+    "Cmap coverage confirms a non-.notdef glyph is present for source codepoints; it does not certify glyph artwork, diacritic positioning, Arabic shaping, visual correctness, tajweed rule correctness or full scholarly proofreading.",
+    "Only Tajweed font assets from the website colrv1 URL family were audited; Firefox OT-SVG fallback assets were not audited.",
+    "Only U+0020 ASCII spaces were excluded from glyph presence checks; no Arabic codepoint was excluded and source text was never altered.",
+    "No fonts or source Quran text were modified."
+  ],
+  "source_provenance": {
+    "response_manifest_sha256": "316c0d23179487bc8b586e26383e7c999d8941fced1f30250d6505ad67a07b50",
+    "chapter_metadata_sha256": "ff6ef5aadcc7710271179c0f9c1519c89ae613b11c8ba3265873c6c4fc6aed0b",
+    "chapter_responses": 190,
+    "all_response_sha256_rechecked": true,
+    "all_asset_sha256_rechecked": true,
+    "download_manifest_sha256": "5ace16ff4f5637d0e6f44552449ea1c0a632fdab0ec1f2cf0508ef5fdcd2dd6a",
+    "audit_script_sha256": "910e4f23730a5d0420fd03498603d9213462ec87da3b5ca46663ccad5c79670b"
+  },
+  "ignored_source_characters": [
+    {
+      "codepoint": "U+0020",
+      "unicode_name": "SPACE",
+      "occurrences": 83061
+    }
+  ],
+  "tajweed_colr_table_version_distribution": {
+    "0": 604
+  },
+  "tajweed_palette_count_distribution": {
+    "6": 604
+  },
+  "colr_path_note": "The official URL family is named colrv1; actual COLR table versions and CPAL palette counts are recorded separately. URL naming is not a table-version claim."
+}
