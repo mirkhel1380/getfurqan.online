@@ -1,0 +1,49 @@
+name: Publish verified Android download
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/publish-android-download.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      DOWNLOAD_TAG: android-v0.1.0
+      APK_NAME: Al-Furqan-Android-0.1.0.apk
+      APK_SHA256: 6acf69c0d6c686204d08d203fa5f4538bf96b98a4435c346d076e79bc4cf0402
+    steps:
+      - name: Publish the exact verified trial APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          download_dir="$RUNNER_TEMP/al-furqan-download"
+          mkdir -p "$download_dir"
+          if gh release view "$DOWNLOAD_TAG" >/dev/null 2>&1; then
+            gh release download "$DOWNLOAD_TAG" --pattern "$APK_NAME" --dir "$download_dir"
+          else
+            gh run download 42387993197 --name Al-Furqan-Android-trial --dir "$download_dir"
+            mv "$download_dir/app-debug.apk" "$download_dir/$APK_NAME"
+          fi
+          printf '%s  %s\n' "$APK_SHA256" "$download_dir/$APK_NAME" | sha256sum --check -
+          if ! gh release view "$DOWNLOAD_TAG" >/dev/null 2>&1; then
+            printf '%s  %s\n' "$APK_SHA256" "$APK_NAME" > "$download_dir/SHA256SUMS.txt"
+            cat > "$download_dir/release-notes.md" <<'NOTES'
+          First Al Furqan Android trial (0.1.0), built from b6fd1305c9a8581736c34e0764128fe62ad6808e.
+
+          Guest reading only. Quran text, fonts, translations, tafsir and audio require internet. This is a debug trial, not a Google Play release; physical-device testing is still pending. Android 7 or newer is required.
+
+          This download is the original verified APK; it has not been rebuilt or re-signed for publication.
+          NOTES
+            gh release create "$DOWNLOAD_TAG" "$download_dir/$APK_NAME" "$download_dir/SHA256SUMS.txt" \
+              --target b6fd1305c9a8581736c34e0764128fe62ad6808e \
+              --prerelease --title 'Al Furqan Android 0.1.0 — Trial' \
+              --notes-file "$download_dir/release-notes.md"
+          fi
