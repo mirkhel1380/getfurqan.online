@@ -1,0 +1,8 @@
+{
+  "appId": "online.getfurqan.app",
+  "appName": "Al Furqan",
+  "webDir": "dist",
+  "loggingBehavior": "debug",
+  "android": { "backgroundColor": "#f8f7f1" },
+  "ios": { "backgroundColor": "#f8f7f1", "contentInset": "automatic" }
+}
