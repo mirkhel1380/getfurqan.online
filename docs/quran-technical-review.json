@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-11-07",
+  "reference_source": "https://tanzil.net/download/",
+  "download_url": "https://tanzil.net/pub/download/index.php?quranType=uthmani&outType=txt&agree=true",
+  "version": "1.1",
+  "download_sha256": "ac0724796cbbda0f4801470fbbd11d0f3c5802067bae0493466d0128b0c667af",
+  "reference_lines": 6236,
+  "no_replacement_characters": true,
+  "source_unchanged": true,
+  "scope": "Reference export structure only. No assertion of full equality with Quran.Foundation or scholarly proofreading. Quran.Foundation bulk endpoint returned HTTP403 in this environment. Existing browser reader source loaded successfully.",
+  "browser_sample": {
+    "reference": "1:2",
+    "scripts": [
+      "uthmani",
+      "indopak",
+      "tajweed"
+    ],
+    "rendered_successfully": true
+  },
+  "automated_guard": "scripts/check-quran-integrity.mjs"
+}

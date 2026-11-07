@@ -1,0 +1,124 @@
+{
+  "publisher": "HadeethEnc.com",
+  "checked_at": "2026-11-07",
+  "ids": [
+    "4560",
+    "4563",
+    "5907",
+    "5913",
+    "3591",
+    "4196",
+    "4319",
+    "4965",
+    "5512",
+    "4709",
+    "5346",
+    "5351"
+  ],
+  "editions": {
+    "en": {
+      "language": "en",
+      "version": "v1.25.0",
+      "updated_at": "2026-05-10 17:43:35",
+      "updates_url": "https://hadeethenc.com/en/check/en/v1.25.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/en",
+      "export_sha256": "339d148eb7425b7f2d48dd7521a969e4aa4a35b5d35a7c4a1c1b67043b5ee218"
+    },
+    "prs": {
+      "language": "prs",
+      "version": "v1.30.0",
+      "updated_at": "2026-05-10 18:03:23",
+      "updates_url": "https://hadeethenc.com/en/check/prs/v1.30.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/prs",
+      "export_sha256": "5b8504e165f54be39cfc9b8ed4ccb229961e7e24850c12d681f35b3ebc956596"
+    },
+    "ps": {
+      "language": "ps",
+      "version": "v1.46.0",
+      "updated_at": "2026-05-17 18:30:24",
+      "updates_url": "https://hadeethenc.com/en/check/ps/v1.46.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/ps",
+      "export_sha256": "f3d002ab52c8eeca1a63e4665e0e44baac5057a588952d4caa86284b241021e1"
+    },
+    "fa": {
+      "language": "fa",
+      "version": "v1.30.0",
+      "updated_at": "2026-07-27 11:18:27",
+      "updates_url": "https://hadeethenc.com/en/check/fa/v1.30.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/fa",
+      "export_sha256": "8addd9043489998e4c25cdb55aab8e54e0dee3caaaa02e30c447ec4b051c8f92"
+    },
+    "de": {
+      "language": "de",
+      "version": "v1.58.0",
+      "updated_at": "2026-09-20 10:31:42",
+      "updates_url": "https://hadeethenc.com/en/check/de/v1.58.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/de",
+      "export_sha256": "db6d94156bde20343fcc257adbf97c3f213ef72a3645b2657dc6b45e0c7fc4f3"
+    },
+    "nl": {
+      "language": "nl",
+      "version": "v1.13.0",
+      "updated_at": "2026-05-10 17:53:08",
+      "updates_url": "https://hadeethenc.com/en/check/nl/v1.13.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/nl",
+      "export_sha256": "dab665920e9a66da52caaa58978c714e95be41a165d7b17c62318382396ce2f0"
+    },
+    "fr": {
+      "language": "fr",
+      "version": "v1.17.0",
+      "updated_at": "2026-05-10 17:45:09",
+      "updates_url": "https://hadeethenc.com/en/check/fr/v1.17.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/fr",
+      "export_sha256": "d532a5f1c9e1746554e232c41fbc3df3ceec32382827e3ec89dd892233f15144"
+    },
+    "it": {
+      "language": "it",
+      "version": "v1.14.0",
+      "updated_at": "2026-05-10 17:47:36",
+      "updates_url": "https://hadeethenc.com/en/check/it/v1.14.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/it",
+      "export_sha256": "7320b47dc8ddc7a0b3c1336bb4f2441d562db0399ae491f9493128ed33a422cc"
+    },
+    "ur": {
+      "language": "ur",
+      "version": "v1.36.0",
+      "updated_at": "2026-05-25 14:39:55",
+      "updates_url": "https://hadeethenc.com/en/check/ur/v1.36.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/ur",
+      "export_sha256": "0f5afc97215b14563134c9ef67f3d146a5395d5d90bfb5bec95e9220fa072041"
+    },
+    "tr": {
+      "language": "tr",
+      "version": "v1.71.0",
+      "updated_at": "2026-09-20 09:37:41",
+      "updates_url": "https://hadeethenc.com/en/check/tr/v1.71.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/tr",
+      "export_sha256": "21ebfb91b7bba3a2b55769b14643e1f6ef8c9c87a32391642fbdbe84cf5ee1bc"
+    },
+    "es": {
+      "language": "es",
+      "version": "v1.23.0",
+      "updated_at": "2026-06-22 03:06:16",
+      "updates_url": "https://hadeethenc.com/en/check/es/v1.23.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/es",
+      "export_sha256": "acf1212e7ceb02ceb7fd77d634fade2f8fe812fca0fd27c8983c8f040dfe5050"
+    },
+    "pt": {
+      "language": "pt",
+      "version": "v1.29.0",
+      "updated_at": "2026-05-10 17:54:20",
+      "updates_url": "https://hadeethenc.com/en/check/pt/v1.29.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/pt",
+      "export_sha256": "dc12c679fdf9e07f5f2c8e10f1848a7f90b405e9eea216542c47dc9122ae9cec"
+    },
+    "id": {
+      "language": "id",
+      "version": "v1.22.0",
+      "updated_at": "2026-05-10 17:47:10",
+      "updates_url": "https://hadeethenc.com/en/check/id/v1.22.0",
+      "download_url": "https://hadeethenc.com/en/browse/download/id",
+      "export_sha256": "f266f1dd4f60a1512717afa162ec657da42b2282f930dd189110f13fa319dd06"
+    }
+  }
+}

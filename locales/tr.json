@@ -1223,5 +1223,14 @@
   "Arabic · Quran.Foundation": "Arapça · Quran.Foundation",
   "Page not found": "Sayfa bulunamadı",
   "This link may have changed. Choose a section below to continue.": "Bu bağlantı değişmiş olabilir. Devam etmek için aşağıdan bir bölüm seçin.",
-  "Report a broken link": "Bozuk bağlantıyı bildir"
+  "Report a broken link": "Bozuk bağlantıyı bildir",
+  "Selected hadiths": "Seçilmiş hadisler",
+  "Read published hadith translations and explanations in 13 languages.": "Yayımlanmış hadis tercümelerini ve açıklamalarını 13 dilde okuyun.",
+  "These selections have their own HadeethEnc identifiers; numbering differs from the collection library.": "Bu seçkiler HadeethEnc kimliklerini kullanır; numaralandırma koleksiyon kütüphanesinden farklıdır.",
+  "Publisher notes": "Yayıncının notları",
+  "Source version information": "Kaynak sürüm bilgileri",
+  "Browse selected hadiths": "Seçilmiş hadislere göz atın",
+  "This selected report could not load. Please try again.": "Seçilen rivayet yüklenemedi. Lütfen tekrar deneyin.",
+  "Published explanations": "Yayımlanmış açıklamalar",
+  "Source updates ↗": "Kaynak güncellemeleri ↗"
 }

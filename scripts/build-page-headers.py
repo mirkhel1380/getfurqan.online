@@ -17,6 +17,7 @@ pages={
  'prayer-times':('Prayer times','prayer-heading'),
  'topics':('Islamic topics','topic-hub-intro'),
  'hadiths':('Hadith library','hadith-library-hero'),
+ 'hadith-translations':('Selected hadiths','selected-intro'),
  'hadith':('Hadith library','hadith-reader-heading'),
  'hadith-book':('Hadith library','hadith-book-page-heading'),
  'reader':('Read Quran','surah-card'),

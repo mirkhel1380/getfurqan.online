@@ -11,7 +11,7 @@ dynamic={'reader.html','study.html','hadith.html','hadith-book.html'}
 ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
 urls=[x.text for x in ET.parse(root/'sitemap.xml').findall('s:url/s:loc',ns)]
 expected={base+('/' if p.name=='index.html' else '/'+p.relative_to(root).as_posix()) for p in root.rglob('*.html') if p.relative_to(root).as_posix() not in private}
-assert len(urls)==len(set(urls))==31
+assert len(urls)==len(set(urls))==32
 assert set(urls)==expected
 assert all('?' not in url and '#' not in url for url in urls)
 assert (root/'robots.txt').read_text()=='User-agent: *\nAllow: /\n\nSitemap: '+base+'/sitemap.xml\n'
@@ -36,11 +36,11 @@ for p in root.rglob('*.html'):
   data=json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>',s,re.S)[1]);assert data['@context']=='https://schema.org'
   types={x['@type'] for x in data['@graph']};assert {'WebSite','WebPage','Organization'}<=types
   assert not any(x in s for x in ['aggregateRating','reviewCount','ratingValue'])
- if name!='404.html':
+ if name not in {'404.html','hadiths.html','hadith-translations.html'}:
   before=subprocess.check_output(['git','show','HEAD:dist/'+name],text=True)
   main=lambda value:re.search(r'<main\b.*?</main>',value,re.S)[0]
   assert main(before)==main(s),(name,'page/source content changed')
 assert not subprocess.check_output(['git','diff','--','dist/content','dist/editions.js','dist/adhkar-data.js'])
 state=lambda:{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
 before=state();subprocess.run(['python','scripts/build-seo.py'],check=True,stdout=subprocess.DEVNULL);assert before==state(),'SEO builder must be idempotent'
-print('PASS: 31 public URLs, 40 consistent page metadata sets, private/search exclusions, social image, JSON-LD, source preservation and idempotent generation.')
+print('PASS: 32 public URLs, 41 consistent page metadata sets, private/search exclusions, social image, JSON-LD, source preservation and idempotent generation.')

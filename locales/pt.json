@@ -1223,5 +1223,14 @@
   "Arabic · Quran.Foundation": "Árabe · Quran.Foundation",
   "Page not found": "Página não encontrada",
   "This link may have changed. Choose a section below to continue.": "Este link pode ter mudado. Escolha uma seção abaixo para continuar.",
-  "Report a broken link": "Informar um link quebrado"
+  "Report a broken link": "Informar um link quebrado",
+  "Selected hadiths": "Hadiths selecionados",
+  "Read published hadith translations and explanations in 13 languages.": "Leia traduções e explicações publicadas de hadiths em 13 idiomas.",
+  "These selections have their own HadeethEnc identifiers; numbering differs from the collection library.": "Estas seleções têm os seus próprios identificadores HadeethEnc; a numeração difere da biblioteca de coletâneas.",
+  "Publisher notes": "Notas do editor",
+  "Source version information": "Informações da versão da fonte",
+  "Browse selected hadiths": "Explorar hadiths selecionados",
+  "This selected report could not load. Please try again.": "Não foi possível carregar este relato selecionado. Tente novamente.",
+  "Published explanations": "Explicações publicadas",
+  "Source updates ↗": "Atualizações da fonte ↗"
 }

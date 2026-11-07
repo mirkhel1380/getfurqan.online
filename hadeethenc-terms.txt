@@ -1,0 +1,16 @@
+Publisher: Encyclopedia of Translated Prophetic Hadiths (HadeethEnc.com)
+Source and terms: https://hadeethenc.com/en/home
+Each language JSON in /content/hadeethenc/ preserves the complete original
+publisher version notice from cell A1 of its official XLSX export.
+The 12 selections retain all source fields verbatim. They use HadeethEnc IDs,
+not a mapping to the numbers used in the separate collection library.
+
+Terms and Policies — Contents of the translations can be downloaded and
+republished under the following terms:
+1. No modification, addition, or deletion of the content.
+2. Clearly refer to the publisher and source (HadeethEnc.com).
+3. Mention the version number when republishing the translation.
+4. Keep the translation version information inside the document.
+5. Notify the source (HadeethEnc.com) of any note on the translation.
+6. Update translations according to the latest version issued by the source.
+7. Do not include inappropriate advertisements when displaying the content.
