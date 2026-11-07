@@ -47,3 +47,12 @@ jobs:
               --prerelease --title 'Al Furqan Android 0.1.0 — Trial' \
               --notes-file "$download_dir/release-notes.md"
           fi
+      - name: Verify public download without authentication
+        shell: bash
+        run: |
+          set -euo pipefail
+          public_apk="$RUNNER_TEMP/al-furqan-public.apk"
+          curl --fail --location --retry 2 --proto '=https' \
+            --output "$public_apk" \
+            "https://github.com/$GH_REPO/releases/download/$DOWNLOAD_TAG/$APK_NAME"
+          printf '%s  %s\n' "$APK_SHA256" "$public_apk" | sha256sum --check -

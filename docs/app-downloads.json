@@ -1,0 +1,18 @@
+{
+  "android": {
+    "url": "https://github.com/mirkhel1380/getfurqan.online/releases/download/android-v0.1.0/Al-Furqan-Android-0.1.0.apk",
+    "version": "0.1.0",
+    "trial": true,
+    "minimumAndroid": "7.0",
+    "bytes": 6640789,
+    "sha256": "6acf69c0d6c686204d08d203fa5f4538bf96b98a4435c346d076e79bc4cf0402",
+    "sourceCommit": "b6fd1305c9a8581736c34e0764128fe62ad6808e",
+    "sourceWorkflowRun": 42387993197
+  },
+  "iphone": {
+    "url": "https://getfurqan.online/#install-iphone",
+    "mode": "safari-web-app",
+    "nativeIpaDownload": false,
+    "requiresNetworkForQuran": true
+  }
+}
