@@ -35,6 +35,7 @@ for p in root.rglob('*.html'):
  if 'class="af-primary-navigation"' not in s:
   s=s.replace('<div class="af-header-actions">',nav+'<div class="af-header-actions">',1)
  if '/page-headers.css?' not in s:s=s.replace('</head>','<link rel="stylesheet" href="/page-headers.css?v=20261030-headers1"></head>')
+ if '/mobile.css?' not in s:s=s.replace('</head>','<link rel="stylesheet" href="/mobile.css?v=20261031-mobile1"></head>')
  if '/page-headers.js?' not in s:s=s.replace('</head>','<script defer src="/page-headers.js?v=20261030-headers1"></script></head>')
  if name=='index':p.write_text(s);continue
  nested=p.parent.name
