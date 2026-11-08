@@ -24,13 +24,24 @@ expected = 'iPhoneSimulator' if args.platform == 'simulator' else 'iPhoneOS'
 assert expected in info['CFBundleSupportedPlatforms'], info['CFBundleSupportedPlatforms']
 assert not info.get('NSAppTransportSecurity', {}).get('NSAllowsArbitraryLoads')
 executable = bundle / info['CFBundleExecutable']
-assert b'FurqanAudioPlugin' in executable.read_bytes()
 assert executable.is_file() and executable.stat().st_size > 0
+# Xcode Debug can put our native implementation in App.debug.dylib and leave a launcher stub.
+# Inspect only this app's own code images; a dependency or resource string cannot satisfy this.
+code_images=[executable]
+debug_image=bundle/(info['CFBundleExecutable']+'.debug.dylib')
+if debug_image.is_file():
+    assert debug_image.stat().st_size>0
+    code_images.append(debug_image)
+assert any(b'FurqanAudioPlugin' in image.read_bytes() for image in code_images), 'Native plugin missing from app code images'
+code_hashes={image.name:hashlib.sha256(image.read_bytes()).hexdigest() for image in code_images}
 architectures = subprocess.check_output(['xcrun', 'lipo', '-archs', str(executable)], text=True).strip()
 if args.platform == 'device':
     assert architectures.split() == ['arm64'], architectures
 else:
     assert {'arm64','x86_64'} <= set(architectures.split()), architectures
+for image in code_images:
+    image_archs=subprocess.check_output(['xcrun','lipo','-archs',str(image)],text=True).split()
+    assert set(image_archs)==set(architectures.split()),image.name
 config = json.loads((bundle / 'capacitor.config.json').read_text())
 assert config['appId'] == info['CFBundleIdentifier']
 assert not config.get('server', {}).get('url')
@@ -75,6 +86,7 @@ print(json.dumps({
     'minimum_ios': info.get('MinimumOSVersion'),
     'architectures': architectures,
     'preserved_reading_files': len(manifest['preserved']),
+    'native_code_files':code_hashes,
     'native_background_audio':True,
     'guest_only': manifest['guestOnly'],
     'physical_device_tested': False,
