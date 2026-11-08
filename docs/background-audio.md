@@ -29,3 +29,13 @@ References reviewed on 8 November 2026:
 - https://developer.apple.com/documentation/avfoundation/avqueueplayer
 - https://developer.apple.com/documentation/avfaudio/handling-audio-interruptions
 - https://developer.apple.com/documentation/mediaplayer/mpremotecommandcenter
+
+Browser interface QA used the actual bridge/client and Downloads UI with a clearly labeled, isolated mock native transport (no claim of real native playback). It reused the already-downloaded Al-Fatihah fixture. Play/pause, next verse while paused, stop without deleting the download, the cross-page mini-player, and restoring the same verse on returning to Downloads all passed. New transport labels rendered in Dari; all 13 dictionaries contain them. The mock bridge and preview HTML remain outside the repository and build output. The saved screenshot is an interface preview, not an Android notification or iOS lock-screen capture.
+
+Xcode Debug layout is verified through the app's own launcher and optional `App.debug.dylib`; frameworks/resources cannot satisfy the native-plugin check. Both code images must have the expected architecture set, and their hashes are recorded. This follows Apple's documented debug-product layout rather than assuming all app code is in the launcher executable.
+
+Additional reference: https://developer.apple.com/documentation/xcode/understanding-build-product-layout-changes
+
+## Verified build evidence
+
+Android run 42501360798 and iOS run 42501360772 succeeded for source `ced7368536d8423805842f236d08711fc6fd7d1c`. Both native queue validators passed in their CI jobs before packaging. The downloaded Android artifact digest matched `4451c67e9345bddad837cbe607f125fa347c5ef01dfc29128a952ef2e5785a68`; the iOS artifact matched `4aa267dd6cda5c59d1b20534378e32d3c17aecb79f6cb49e8c3b281c235fdeac`. Local nested-archive inspection verified the actual version/build, Android plugin/service DEX entries, iOS audio mode and plugin code in owned code images, image hashes, exact bridge/Downloads scripts, and all 13 unchanged reading files. QA transport files were absent. Reports are saved as `android-0.1.4-verification.json`, `ios-0.1.4-build.json` and the two iOS verification reports. Physical-device flags remain false; these internal builds do not replace public 0.1.1 downloads.
