@@ -15,7 +15,7 @@ npx cap sync
 
 Android requires Java 21 and Android SDK 36. Open `android/` in Android Studio, or run `bash ./gradlew assembleDebug` inside that directory. The GitHub workflow **Al Furqan Android trial** builds a debug APK and checksum, retained for 14 days. This is a trial build, not a store release. Local Android signing material and generated output must stay untracked.
 
-iOS source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
+iOS 0.1.1/build 2 source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. The app requires iOS 16.4 or newer, aligned with the shared JavaScript build target. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
 
 The development application ID is `online.getfurqan.app`; the display name is **Al Furqan**. Confirm availability in the owner's store accounts before the first release. The website remains at `getfurqan.online`.
 
@@ -51,3 +51,5 @@ Gradle remains pinned to 8.14.3; the smaller binary-only distribution has its of
 After those checks, CI creates an immutable public prerelease with the APK, checksum, source commit, public signing-certificate fingerprint and inspection report. It verifies the public download anonymously before site download links are changed. Existing release assets are never silently replaced. The old 0.1.0 public release is retained.
 
 This is still a debug trial. Its signing key is ephemeral and protected production signing/consistent future update identity is pending. Private signing keys are never uploaded as artifacts or committed to this public repository. Physical-device testing is separate from successful compilation and package inspection.
+
+Android publication now requires an explicit version change in its Gradle configuration or the manual publish option. iOS-only builds do not replace the existing Android release.

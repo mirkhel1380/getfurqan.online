@@ -3,6 +3,8 @@ import argparse
 import hashlib
 import json
 import plistlib
+import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -15,7 +17,9 @@ with (bundle / 'Info.plist').open('rb') as handle:
     info = plistlib.load(handle)
 assert info['CFBundleIdentifier'] == 'online.getfurqan.app'
 assert info['CFBundleDisplayName'] == 'Al Furqan'
-assert info['CFBundleShortVersionString'] == '0.1.0'
+assert info['CFBundleShortVersionString'] == '0.1.1'
+assert info['CFBundleVersion'] == '2'
+assert info['MinimumOSVersion'] == '16.4'
 expected = 'iPhoneSimulator' if args.platform == 'simulator' else 'iPhoneOS'
 assert expected in info['CFBundleSupportedPlatforms'], info['CFBundleSupportedPlatforms']
 assert not info.get('NSAppTransportSecurity', {}).get('NSAllowsArbitraryLoads')
@@ -23,7 +27,9 @@ executable = bundle / info['CFBundleExecutable']
 assert executable.is_file() and executable.stat().st_size > 0
 architectures = subprocess.check_output(['xcrun', 'lipo', '-archs', str(executable)], text=True).strip()
 if args.platform == 'device':
-    assert 'arm64' in architectures.split(), architectures
+    assert architectures.split() == ['arm64'], architectures
+else:
+    assert {'arm64','x86_64'} <= set(architectures.split()), architectures
 config = json.loads((bundle / 'capacitor.config.json').read_text())
 assert config['appId'] == info['CFBundleIdentifier']
 assert not config.get('server', {}).get('url')
@@ -31,6 +37,10 @@ assert not config.get('server', {}).get('cleartext')
 assert not config.get('server', {}).get('allowNavigation')
 public = bundle / 'public'
 manifest = json.loads((public / 'app-source-manifest.json').read_text())
+mobile = Path(__file__).resolve().parents[1]
+assert (public / 'app-source-manifest.json').read_bytes() == (mobile / 'dist/app-source-manifest.json').read_bytes()
+assert len(manifest['preserved']) == 13
+assert manifest['requiresNetwork'] is True
 assert manifest['guestOnly'] is True
 for name, expected_hash in manifest['preserved'].items():
     assert hashlib.sha256((public / name).read_bytes()).hexdigest() == expected_hash, name
@@ -38,10 +48,23 @@ for excluded in ['auth-config.js', 'auth-client.js', 'account.html', 'login.html
     assert not (public / excluded).exists(), excluded
 assert 'app-native.js' in (public / 'index.html').read_text()
 assert (bundle / 'Assets.car').is_file(), 'Compiled icon/splash assets missing'
+index=json.loads((public/'content/mushaf-pages.json').read_text())
+assert index['layout']=='qcf-v2-604' and len(index['pages'])==604
+assert sum(p['verse_count'] for p in index['pages'])==6236
+assert 'data-view="mushaf"' in (public/'reader.html').read_text()
+commit=os.environ.get('GITHUB_SHA','')
+assert re.fullmatch('[0-9a-f]{40}',commit)
+assert not (bundle/'embedded.mobileprovision').exists(), 'Unsigned build must not contain an owner profile'
 print(json.dumps({
     'platform': args.platform,
     'bundle_id': info['CFBundleIdentifier'],
     'version': info['CFBundleShortVersionString'],
+    'build': info['CFBundleVersion'],
+    'source_commit': commit,
+    'source_workflow_run': int(os.environ['GITHUB_RUN_ID']),
+    'executable_sha256': hashlib.sha256(executable.read_bytes()).hexdigest(),
+    'preserved': manifest['preserved'],
+    'mushaf_pages': 604,
     'minimum_ios': info.get('MinimumOSVersion'),
     'architectures': architectures,
     'preserved_reading_files': len(manifest['preserved']),

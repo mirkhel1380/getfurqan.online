@@ -4,12 +4,19 @@ on:
     branches: [main]
     paths: ['mobile/android/**', 'mobile/src/**', 'mobile/scripts/**', 'mobile/package*.json', '.github/workflows/android-debug.yml']
   workflow_dispatch:
+    inputs:
+      publish_trial:
+        description: Publish this Android version after verification
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
   android:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    outputs:
+      publish_trial: ${{ steps.release-request.outputs.publish_trial }}
     defaults:
       run:
         working-directory: mobile
@@ -17,6 +24,22 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 2
+      - name: Check Android release request
+        id: release-request
+        shell: bash
+        env:
+          MANUAL_PUBLISH: ${{ inputs.publish_trial }}
+        run: |
+          set -euo pipefail
+          publish=false
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            publish="${MANUAL_PUBLISH:-false}"
+          elif git diff HEAD^ HEAD -- app/build.gradle | grep -Eq '^\+[[:space:]]*version(Code|Name)[[:space:]]'; then
+            publish=true
+          fi
+          echo "publish_trial=$publish" >> "$GITHUB_OUTPUT"
+        working-directory: mobile/android
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '24'
@@ -59,7 +82,7 @@ jobs:
           retention-days: 14
   publish:
     needs: android
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && needs.android.outputs.publish_trial == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:

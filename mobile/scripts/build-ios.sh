@@ -18,13 +18,26 @@ mkdir -p "$output"
 project='ios/App/App.xcodeproj'
 packages="$output/SourcePackages"
 
-xcodebuild -resolvePackageDependencies -project "$project" -scheme App \
-  -clonedSourcePackagesDirPath "$packages"
+# Retry only dependency resolution; actual compiler errors still fail immediately.
+resolved=false
+for attempt in 1 2 3; do
+  if xcodebuild -resolvePackageDependencies -project "$project" -scheme App \
+    -clonedSourcePackagesDirPath "$packages" > "$output/resolve-packages-$attempt.log" 2>&1; then
+    resolved=true
+    break
+  fi
+  tail -n 50 "$output/resolve-packages-$attempt.log"
+  if [ "$attempt" -lt 3 ]; then sleep "$((attempt * 3))"; fi
+done
+if [ "$resolved" != true ]; then
+  echo 'Unable to resolve pinned iOS dependencies after three attempts.' >&2
+  exit 1
+fi
 xcodebuild -project "$project" -scheme App -configuration Debug \
   -destination 'generic/platform=iOS Simulator' \
   -derivedDataPath "$output/simulator-build" \
-  -clonedSourcePackagesDirPath "$packages" \
-  CODE_SIGNING_ALLOWED=NO build > "$output/simulator-build.log" 2>&1 || {
+  -clonedSourcePackagesDirPath "$packages" -disableAutomaticPackageResolution \
+  CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO 'ARCHS=arm64 x86_64' build > "$output/simulator-build.log" 2>&1 || {
     tail -n 100 "$output/simulator-build.log"; exit 1;
   }
 simulator_app="$output/simulator-build/Build/Products/Debug-iphonesimulator/App.app"
@@ -34,7 +47,7 @@ xcodebuild -project "$project" -scheme App -configuration Release \
   -destination 'generic/platform=iOS' \
   -archivePath "$output/Al-Furqan-unsigned.xcarchive" \
   -derivedDataPath "$output/device-build" \
-  -clonedSourcePackagesDirPath "$packages" \
+  -clonedSourcePackagesDirPath "$packages" -disableAutomaticPackageResolution \
   CODE_SIGNING_ALLOWED=NO archive > "$output/device-build.log" 2>&1 || {
     tail -n 100 "$output/device-build.log"; exit 1;
   }
@@ -46,4 +59,12 @@ ditto -c -k --sequesterRsrc --keepParent "$output/Al-Furqan-unsigned.xcarchive" 
 cp IOS-INSTALL.md "$output/READ-ME-FIRST.md"
 cd "$output"
 shasum -a 256 Al-Furqan-iOS-simulator.zip Al-Furqan-iOS-unsigned-archive.zip > SHA256SUMS.txt
+python3 - <<'PY'
+import hashlib,json,os
+from pathlib import Path
+files=['Al-Furqan-iOS-simulator.zip','Al-Furqan-iOS-unsigned-archive.zip']
+meta={'version':'0.1.1','build':2,'minimum_ios':'16.4','source_commit':os.environ['GITHUB_SHA'],'source_workflow_run':int(os.environ['GITHUB_RUN_ID']),'signed_for_distribution':False,'installable_ipa':False,'physical_device_tested':False,'files':{p:{'bytes':Path(p).stat().st_size,'sha256':hashlib.sha256(Path(p).read_bytes()).hexdigest()}for p in files}}
+Path('ios-build.json').write_text(json.dumps(meta,indent=2)+'\n')
+print(json.dumps(meta,indent=2))
+PY
 echo 'Built simulator app and unsigned iPhone archive. Physical-device installation still needs Apple signing.'

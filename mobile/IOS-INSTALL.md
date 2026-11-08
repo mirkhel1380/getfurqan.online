@@ -1,4 +1,4 @@
-# Al Furqan for iOS · 0.1.0
+# Al Furqan for iOS · 0.1.1
 
 This package contains a compiled Simulator app and an **unsigned** iPhone archive. It is not an installable, signed IPA and has not been uploaded to TestFlight or the App Store. A successful build does not establish physical-device correctness or scholarly proofreading of Quran text.
 
@@ -21,9 +21,11 @@ Use Xcode 26 or newer. Unzip `Al-Furqan-iOS-simulator.zip` to get `App.app`. In 
 
 3. In Xcode, add your own Apple Account under **Xcode → Settings → Accounts**. Keep the password and verification codes in Apple's own interface.
 4. Select the **App** target, then **Signing & Capabilities**. Enable automatic signing and select your real team. The development bundle identifier is `online.getfurqan.app`; confirm it is available to your team before distribution. If Xcode reports that another team owns it, choose an available identifier under your own domain and update both native targets and `capacitor.config.json` consistently.
-5. Connect and trust your iPhone, select it as the run destination, and press Run. Complete any required Developer Mode or device-trust steps on the phone itself. The app supports iOS 15 or newer; this Capacitor version does not support iOS 9.
+5. Connect and trust your iPhone, select it as the run destination, and press Run. Complete any required Developer Mode or device-trust steps on the phone itself. The app supports iOS 16.4 or newer; this Capacitor version does not support iOS 9.
 
 A free Apple Account can use a Personal Team for limited personal-device testing; its provisioning expires and must be renewed. TestFlight and App Store distribution require the applicable Apple Developer Program membership, real signing configuration and App Store Connect setup. This project does not create an Apple account, enroll in a paid program, accept agreements, or register a store listing for you.
+
+The minimum iOS version is aligned with the Safari 16.4 JavaScript build target and the modern web APIs used by the shared reader. Compilation and bundle inspection do not replace testing Quran fonts and controls on an actual iPhone.
 
 ## Unsigned archive
 

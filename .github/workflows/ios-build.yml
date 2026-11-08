@@ -27,6 +27,7 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run build
       - run: npm run check
+      - run: python3 scripts/check-ios-configuration.py
       - run: npx cap sync ios
       - name: Compile simulator and iPhone archive
         run: bash scripts/build-ios.sh
@@ -38,6 +39,7 @@ jobs:
             mobile/artifacts/ios/Al-Furqan-iOS-unsigned-archive.zip
             mobile/artifacts/ios/simulator-verification.json
             mobile/artifacts/ios/device-verification.json
+            mobile/artifacts/ios/ios-build.json
             mobile/artifacts/ios/READ-ME-FIRST.md
             mobile/artifacts/ios/SHA256SUMS.txt
           if-no-files-found: error
