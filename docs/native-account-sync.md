@@ -26,3 +26,7 @@ References:
 - https://supabase.com/docs/guides/auth/sessions/pkce-flow
 - https://supabase.com/changelog.md
 - https://github.com/ionic-team/capacitor-plugins/tree/main/app-launcher
+
+## Compiled build evidence
+
+Both CI runs succeeded for GitHub source `ea0784f2186bc9e6173faacc62141eb4c864277d`: Android run 42495369222 and iOS run 42495369238. Downloaded artifact SHA-256 digests matched GitHub metadata. Local inspection then verified the APK and both nested iOS bundles, exact app source manifests, all 13 preserved reading files, and matching account pages/SDK/handlers. Android artifact digest: `3818ec520b5a4c03819e01f4bd07e5c18ba75bb9a4a4223f2039666a675d6872`; iOS artifact digest: `bbc998984c555469ffc8532a9cdd4b72ce022883ab5ffda4b051638632a67099`. Reports are retained alongside this document as `android-0.1.2-verification.json`, `ios-0.1.2-build.json`, and the two iOS verification reports. These are internal CI builds; the 0.1.1 public downloads were not replaced.

@@ -1,0 +1,31 @@
+{
+  "platform": "simulator",
+  "bundle_id": "online.getfurqan.app",
+  "version": "0.1.2",
+  "build": "3",
+  "source_commit": "ea0784f2186bc9e6173faacc62141eb4c864277d",
+  "source_workflow_run": 42495369238,
+  "executable_sha256": "ff2361390e1273f3a425b241f4e9e0327aa1ebe00dcc7a4a2d5a02d52860bc1c",
+  "preserved": {
+    "mushaf-model.js": "faf8c67c68633deac494af0a607b4c82e94a6f2f2ee606a763c5876532f19a2c",
+    "mushaf.js": "2370ca9625d0e2f7ce643b4450286e8c9b0301b2bd863b0474ae8143c8774ab8",
+    "mushaf.css": "7c9350110ba4aa75fd665d5113714752a77dc14ff3f5411dcc589273157e4961",
+    "content/mushaf-pages.json": "6da2fcd5d10fde8ca7982c0f5ea4bfdc07d4499bf54e71c9e64e540f408cd4d7",
+    "quran-integrity.js": "327887a450972200aaa2729559988470fc268861486b7edef938c872d36b7e0a",
+    "reader.js": "e96f8906a44959521ebceadeff2b32243ecf0ea3f3f13681b3b018635ce0d82f",
+    "reader.css": "9173f0a481f547cae68d5d414ee1f70ca51be1c75fe0dabe62c18e3e2339fbc8",
+    "editions.js": "169e09fb122f778684fb38cc07393fb689051f8d19279c67f21b5da71b795840",
+    "study.js": "14efb1b39f719994a9c6028d23e9f0cc2523d48ee9a9b49076f897fe5650845f",
+    "listen.js": "2f9aa3131857c83edba31857c701235ed51aae2a8069865f5a0a9b6e8145fd6e",
+    "reading-core.js": "0c8ba36b2cc0401854120bf14491c235465a650e9daa58e462d17d6ac876c2cd",
+    "reading-data.js": "6302f8eca26a189e72ab7a0d6e147ad335d3e95f9a6a76bfaa82c5bff572bc9f",
+    "progress-store.js": "b831b95e5d39d19a44e5e3d5cfd45d10162a590ce8514ca252047cbb172ff50b"
+  },
+  "mushaf_pages": 604,
+  "minimum_ios": "16.4",
+  "architectures": "x86_64 arm64",
+  "preserved_reading_files": 13,
+  "guest_only": false,
+  "physical_device_tested": false,
+  "signed_for_distribution": false
+}
