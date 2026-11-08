@@ -12,6 +12,7 @@ export async function nativeStore(){
  const read=async path=>{const sizeNow=await size(path);if(sizeNow>FILE_LIMIT||sizeNow<100)throw Error('Invalid audio');const {data}=await Filesystem.readFile({path,directory});if(data instanceof Blob)return new Uint8Array(await data.arrayBuffer());const text=atob(data);return Uint8Array.from(text,c=>c.charCodeAt(0))};
  return {
   ...metadata,size,read,
+  async audioRoot(){return (await Filesystem.getUri({path:ROOT,directory})).uri},
   async usedBytes(){let total=0;const roots=await Filesystem.readdir({path:ROOT,directory});for(const folder of roots.files){if(folder.type!=='directory'||!/^\d{1,2}-\d{1,3}$/.test(folder.name))continue;for(const file of (await Filesystem.readdir({path:ROOT+'/'+folder.name,directory})).files)if(file.type==='file')total+=file.size}return total},
   async download(url,path){
    await metadata.assertLease();sourceURL(url);await ensure(path.slice(0,path.lastIndexOf('/')));

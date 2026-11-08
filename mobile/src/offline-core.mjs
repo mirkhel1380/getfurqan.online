@@ -71,5 +71,6 @@ export function createDownloads({catalog,store,recordings,exclusive,onProgress=(
  })}
  async function remove(key){return mutate(async()=>{const pack=await store.get(key);validatePack(pack,catalog);await store.removePack(pack.key);await store.delete(pack.key)})}
  async function playable(key,verse){const pack=validatePack(await store.get(key),catalog),f=pack.files.find(f=>f.verse===verse);if(!f)throw Error('Saved audio is missing or damaged. Download this surah again to repair it.');const bytes=await verify(f);return store.playable(f.path,bytes)}
- return {state,list,download,remove,playable,stop(){stopped=true}};
+ async function queueData(key){const p=validatePack(await store.get(key),catalog);const count=catalog.chapters.find(c=>c.id===p.chapter).verses_count;if(p.files.length!==count||p.files.some((f,i)=>f.verse!==i+1))throw Error('Saved audio is missing or damaged. Download this surah again to repair it.');return {key:p.key,tracks:p.files.map(({path,ref,bytes,sha256})=>({path,ref,bytes,sha256}))}}
+ return {state,list,download,remove,playable,queueData,stop(){stopped=true}};
 }

@@ -17,13 +17,14 @@ with (bundle / 'Info.plist').open('rb') as handle:
     info = plistlib.load(handle)
 assert info['CFBundleIdentifier'] == 'online.getfurqan.app'
 assert info['CFBundleDisplayName'] == 'Al Furqan'
-assert info['CFBundleShortVersionString'] == '0.1.3'
-assert info['CFBundleVersion'] == '4'
+assert info['CFBundleShortVersionString'] == '0.1.4'
+assert info['CFBundleVersion'] == '5'
 assert info['MinimumOSVersion'] == '16.4'
 expected = 'iPhoneSimulator' if args.platform == 'simulator' else 'iPhoneOS'
 assert expected in info['CFBundleSupportedPlatforms'], info['CFBundleSupportedPlatforms']
 assert not info.get('NSAppTransportSecurity', {}).get('NSAllowsArbitraryLoads')
 executable = bundle / info['CFBundleExecutable']
+assert b'FurqanAudioPlugin' in executable.read_bytes()
 assert executable.is_file() and executable.stat().st_size > 0
 architectures = subprocess.check_output(['xcrun', 'lipo', '-archs', str(executable)], text=True).strip()
 if args.platform == 'device':
@@ -40,13 +41,15 @@ manifest = json.loads((public / 'app-source-manifest.json').read_text())
 mobile = Path(__file__).resolve().parents[1]
 assert (public / 'app-source-manifest.json').read_bytes() == (mobile / 'dist/app-source-manifest.json').read_bytes()
 assert len(manifest['preserved']) == 13
+assert manifest['nativeBackgroundAudio'] is True
+assert info['UIBackgroundModes']==['audio']
 assert manifest['requiresNetwork'] is True
 assert manifest['guestOnly'] is False and manifest['optionalAccount'] is True
 for name, expected_hash in manifest['preserved'].items():
     assert hashlib.sha256((public / name).read_bytes()).hexdigest() == expected_hash, name
 for excluded in ['auth-callback.html','login.js','admin.html','__app-preview.html']:
     assert not (public / excluded).exists(), excluded
-for name in ['auth-config.js','auth-client.js','account.html','login.html','app-account.js','vendor/supabase-2.118.0.js','downloads.html','app-downloads-offline.js']:
+for name in ['auth-config.js','auth-client.js','account.html','login.html','app-account.js','vendor/supabase-2.118.0.js','downloads.html','app-downloads-offline.js','native-audio.js']:
     assert (public/name).read_bytes()==(mobile/'dist'/name).read_bytes(),name
 privacy=plistlib.loads((bundle/'PrivacyInfo.xcprivacy').read_bytes())
 assert any(x['NSPrivacyAccessedAPIType']=='NSPrivacyAccessedAPICategoryFileTimestamp' and 'C617.1' in x['NSPrivacyAccessedAPITypeReasons'] for x in privacy['NSPrivacyAccessedAPITypes'])
@@ -72,6 +75,7 @@ print(json.dumps({
     'minimum_ios': info.get('MinimumOSVersion'),
     'architectures': architectures,
     'preserved_reading_files': len(manifest['preserved']),
+    'native_background_audio':True,
     'guest_only': manifest['guestOnly'],
     'physical_device_tested': False,
     'signed_for_distribution': False,

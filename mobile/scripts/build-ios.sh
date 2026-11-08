@@ -15,6 +15,8 @@ if [ "$xcode_major" -lt 26 ]; then
 fi
 output="$mobile_root/artifacts/ios"
 mkdir -p "$output"
+swiftc ios/App/App/RecitationFiles.swift scripts/ios-audio-tests/main.swift -o "$output/check-audio-files"
+"$output/check-audio-files"
 project='ios/App/App.xcodeproj'
 packages="$output/SourcePackages"
 
@@ -63,7 +65,7 @@ python3 - <<'PY'
 import hashlib,json,os
 from pathlib import Path
 files=['Al-Furqan-iOS-simulator.zip','Al-Furqan-iOS-unsigned-archive.zip']
-meta={'version':'0.1.3','build':4,'minimum_ios':'16.4','source_commit':os.environ['GITHUB_SHA'],'source_workflow_run':int(os.environ['GITHUB_RUN_ID']),'signed_for_distribution':False,'installable_ipa':False,'physical_device_tested':False,'files':{p:{'bytes':Path(p).stat().st_size,'sha256':hashlib.sha256(Path(p).read_bytes()).hexdigest()}for p in files}}
+meta={'version':'0.1.4','build':5,'minimum_ios':'16.4','source_commit':os.environ['GITHUB_SHA'],'source_workflow_run':int(os.environ['GITHUB_RUN_ID']),'signed_for_distribution':False,'installable_ipa':False,'physical_device_tested':False,'files':{p:{'bytes':Path(p).stat().st_size,'sha256':hashlib.sha256(Path(p).read_bytes()).hexdigest()}for p in files}}
 Path('ios-build.json').write_text(json.dumps(meta,indent=2)+'\n')
 print(json.dumps(meta,indent=2))
 PY
