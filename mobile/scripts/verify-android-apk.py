@@ -3,9 +3,9 @@ import argparse, hashlib, json, os, re, subprocess, zipfile, sys
 from pathlib import Path
 
 def signing_fingerprint(report):
- # Recent SDKs label v3 signers by their API range rather than by signer number.
+ # Recent SDKs label signers by signature scheme or API range rather than signer number.
  # The apksigner process must also succeed; this only parses its verified report.
- fingerprints=set(re.findall(r'^Signer (?:#\d+|\([^\n]*\)) certificate SHA-256 digest: ([0-9a-fA-F]{64})$',report,re.M))
+ fingerprints=set(re.findall(r'^(?:Signer (?:#\d+|\([^\n]*\))|V2 Signer:) certificate SHA-256 digest: ([0-9a-fA-F]{64})$',report,re.M))
  if len(fingerprints)!=1 or 'Verified using v2 scheme (APK Signature Scheme v2): true' not in report:
   raise ValueError('Expected one verified v2 signer and its public certificate fingerprint')
  return next(iter(fingerprints)).lower()
