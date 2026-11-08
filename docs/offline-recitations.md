@@ -26,3 +26,7 @@ References reviewed on 8 November 2026:
 - https://api.quran.com/api/v4/resources/recitations?language=en
 - https://github.com/paulmillr/noble-hashes
 - https://github.com/dumbmatter/fakeIndexedDB
+
+## Compiled build evidence
+
+Android run 42497962199 and iOS run 42497962209 succeeded for source `72f80b5108c2987db68c8ef46b30d42a06cc85d4`. GitHub artifact transfer digests matched: Android `eecd38713af94a8d7cd2fec44cbbc060f81382f435006f1900c11aeb7e6fd6dc`, iOS `bd4a34c9d7fa62dc02a622517d3605f8429445e389e02cff42dd2625008a652c`. Local archive inspection verified actual version/build/OS, iOS executable hashes, exact bundled Downloads page/script, all 13 preserved reading hashes, and the compiled iOS filesystem privacy reason. QA helper files are absent. Reports are retained in `android-0.1.3-verification.json`, `ios-0.1.3-build.json` and the two iOS verification reports. These are internal builds and do not replace public 0.1.1 downloads.
