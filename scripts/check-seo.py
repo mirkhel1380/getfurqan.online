@@ -41,6 +41,11 @@ for p in root.rglob('*.html'):
   main=lambda value:re.search(r'<main\b.*?</main>',value,re.S)[0]
   prior,current=main(before),main(s)
   if name=='index.html':prior=prior.replace('Explore all 8 topics','Explore all 18 topics')
+  if name=='index.html':
+   # Version, QR target and trial migration note belong to the download UI.
+   # Its coordinated metadata/links are checked by check-app-downloads.py.
+   prior=re.sub(r'<aside class="app-downloads".*?</aside>','<aside data-downloads-checked></aside>',prior,flags=re.S)
+   current=re.sub(r'<aside class="app-downloads".*?</aside>','<aside data-downloads-checked></aside>',current,flags=re.S)
   if name in {'reader.html','translations.html'}:
    # Only owned source-review status changed; keep the remaining controls,
    # references and content exact against the previously published page.
