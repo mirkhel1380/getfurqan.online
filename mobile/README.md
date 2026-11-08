@@ -1,4 +1,4 @@
-# Al Furqan mobile · 0.1.2
+# Al Furqan mobile · 0.1.3
 
 Shared Android and iPhone foundation using Capacitor 8.6.0. The local app bundle contains a dedicated home screen, bottom navigation, 13 interface languages, theme controls and the existing Quran reading tools. It does not load the deployed website as its app shell.
 
@@ -15,7 +15,7 @@ npx cap sync
 
 Android requires Java 21 and Android SDK 36. Open `android/` in Android Studio, or run `bash ./gradlew assembleDebug` inside that directory. The GitHub workflow **Al Furqan Android trial** builds a debug APK and checksum, retained for 14 days. This is a trial build, not a store release. Local Android signing material and generated output must stay untracked.
 
-iOS 0.1.2/build 3 source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. The app requires iOS 16.4 or newer, aligned with the shared JavaScript build target. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
+iOS 0.1.3/build 4 source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. The app requires iOS 16.4 or newer, aligned with the shared JavaScript build target. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
 
 The development application ID is `online.getfurqan.app`; the display name is **Al Furqan**. Confirm availability in the owner's store accounts before the first release. The website remains at `getfurqan.online`.
 
@@ -59,3 +59,7 @@ Android publication now requires an explicit version change in its Gradle config
 Build 3 adds optional native sign-in, profile editing, private reading sync and an account deletion request by email. Email-link flows open the phone’s system browser through the pinned AppLauncher plugin; confirm in that browser, return to the app and sign in. The app does not accept authentication tokens from URLs. Admin routes are omitted. Session credentials remain in the app’s sandboxed web storage; no claim of hardware-backed encryption is made.
 
 CI compiles trial artifacts only. It no longer publishes ephemeral-key builds automatically. The public 0.1.1 APK and existing iOS download remain unchanged. Stable Android signing, owner iOS signing, store submission and physical-device account tests remain separate pending work. Do not uninstall an earlier app to install an internal CI build and lose local data.
+
+## Offline recitation · source 0.1.3 / build 4
+
+Downloads offers all 114 surahs with three reviewed reciters. Download explicitly, resume completed verses after interruption, play locally and delete individual downloads. Audio uses app-private LibraryNoCloud storage with a 200 MiB library limit, separate from account sync. Text/fonts/translation/tafsir remain online. See `../docs/offline-recitations.md` for checks and device-test limits. Native CI remains internal; current public downloads stay at 0.1.1.

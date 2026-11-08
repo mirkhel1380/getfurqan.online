@@ -1,4 +1,4 @@
-# Al Furqan for iOS · 0.1.2
+# Al Furqan for iOS · 0.1.3
 
 This package contains a compiled Simulator app and an **unsigned** iPhone archive. It is not an installable, signed IPA and has not been uploaded to TestFlight or the App Store. A successful build does not establish physical-device correctness or scholarly proofreading of Quran text.
 
@@ -42,3 +42,5 @@ The minimum iOS version is aligned with the Safari 16.4 JavaScript build target 
 Official guidance: [Capacitor iOS requirements](https://capacitorjs.com/docs/ios), [Apple personal teams and distribution](https://developer.apple.com/help/account/basics/about-your-developer-account).
 
 Optional native sign-in uses verified accounts. Signup, email confirmation and password reset open the system browser; return to the app and sign in after confirming. Private reading sync is opt-in. This source does not replace the previously delivered 0.1.1 package.
+
+Version 0.1.3/build 4 adds on-demand offline recitation downloads. The downloaded surah can play locally without signing in. Keep the download page open and return to resume interrupted downloads. Text/fonts/translation/tafsir remain network-dependent. Downloads use app-private storage excluded from cloud backup, with a 200 MB library limit. Removing the app deletes them.

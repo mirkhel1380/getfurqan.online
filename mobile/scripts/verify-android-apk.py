@@ -19,7 +19,7 @@ def main():
  apk=args.apk.resolve();mobile=Path(__file__).resolve().parents[1]
  badging=subprocess.check_output([args.aapt,'dump','badging',str(apk)],text=True)
  package=re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'",badging)
- assert package and package.groups()==('online.getfurqan.app.trial','3','0.1.2-trial'), 'Wrong package/version'
+ assert package and package.groups()==('online.getfurqan.app.trial','4','0.1.3-trial'), 'Wrong package/version'
  assert "sdkVersion:'24'" in badging and "targetSdkVersion:'36'" in badging
  assert "application-label:'Al Furqan Trial'" in badging
  signature=subprocess.check_output([args.apksigner,'verify','--verbose','--print-certs',str(apk)],text=True)
@@ -38,7 +38,7 @@ def main():
    assert hashlib.sha256(archive.read(prefix+name)).hexdigest()==expected,name
   for name in ['admin.html','auth-callback.html','login.js']:
    assert prefix+name not in names,name
-  for name in ['auth-config.js','auth-client.js','login.html','account.html','app-account.js','vendor/supabase-2.118.0.js']:
+  for name in ['auth-config.js','auth-client.js','login.html','account.html','app-account.js','vendor/supabase-2.118.0.js','downloads.html','app-downloads-offline.js']:
    assert archive.read(prefix+name)==(mobile/'dist'/name).read_bytes(),name
   assert not any(name.endswith(('.jks','.keystore')) for name in names),'Signing keys must never be packaged'
   reader=archive.read(prefix+'reader.html').decode()
