@@ -45,7 +45,7 @@ final class FurqanAudioEngine {
         remote.stopCommand.addTarget{[weak self] _ in self?.remote{$0.stop()} ?? .commandFailed}
         UIApplication.shared.beginReceivingRemoteControlEvents();update()
     }
-    private func remote(_ action:(FurqanAudioEngine)throws->Void)->MPRemoteCommandHandlerStatus{
+    private func remote(_ action: @escaping (FurqanAudioEngine) throws -> Void) -> MPRemoteCommandHandlerStatus {
         let run={()->MPRemoteCommandHandlerStatus in do{try action(self);return .success}catch{return .commandFailed}}
         return Thread.isMainThread ? run():DispatchQueue.main.sync(execute:run)
     }
