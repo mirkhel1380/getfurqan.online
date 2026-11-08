@@ -1,4 +1,4 @@
-# Al Furqan mobile · 0.1.0
+# Al Furqan mobile · 0.1.1
 
 Shared Android and iPhone foundation using Capacitor 8.6.0. The local app bundle contains a dedicated home screen, bottom navigation, 13 interface languages, theme controls and the existing Quran reading tools. It does not load the deployed website as its app shell.
 
@@ -21,7 +21,7 @@ The development application ID is `online.getfurqan.app`; the display name is **
 
 ## Source preservation
 
-`prepare-web.mjs` uses the parent `dist/` in the native Site source repository, or the parent root in the public GitHub mirror. Only known web files/directories are copied; repository files and dependencies are excluded. The bundle records SHA-256 hashes for nine unchanged reading adapters, editions and styles. Bundled HTML changes only app navigation, account controls, local shell assets and viewport handling; published Quran text, edition selections, font mappings and integrity guards are reused. These checks do not replace scholarly proofreading or testing actual glyph appearance on phones.
+`prepare-web.mjs` uses the parent `dist/` in the native Site source repository, or the parent root in the public GitHub mirror. Only known web files/directories are copied; repository files and dependencies are excluded. The bundle records SHA-256 hashes for thirteen unchanged reading adapters, editions, page-layout metadata and styles. Bundled HTML changes only app navigation, account controls, local shell assets and viewport handling; published Quran text, edition selections, font mappings and integrity guards are reused. These checks do not replace scholarly proofreading or testing actual glyph appearance on phones.
 
 The source website files are not changed by the mobile build. App icon and splash artwork derive from the existing outlined Al Furqan wordmark and retain its font-license attribution in the source SVG.
 
@@ -41,3 +41,13 @@ The source website files are not changed by the mobile build. App icon and splas
 4. Review source redistribution/attribution, full privacy disclosures, religious proofreading, accessibility, store screenshots, production signing and store forms before submission.
 
 Official references: [Capacitor environment](https://capacitorjs.com/docs/getting-started/environment-setup), [configuration](https://capacitorjs.com/docs/config), [Android](https://capacitorjs.com/docs/android), [iOS](https://capacitorjs.com/docs/ios).
+
+## Android 0.1.1 trial
+
+The new trial includes the framed 604-page reader. Debug builds use package `online.getfurqan.app.trial`, version code 2 and version name `0.1.1-trial`, with launcher label **Al Furqan Trial**. The original 0.1.0 trial used `online.getfurqan.app`. Its ephemeral CI debug signing key was not retained, so a newly signed APK cannot update that package in place. The new package installs alongside it and leaves its local saved data intact; it does not import those saved items. Do not remove the old app to install this trial.
+
+Gradle remains pinned to 8.14.3; the smaller binary-only distribution has its official SHA-256 checksum pinned and a 120-second download timeout. CI retries only distribution bootstrap, then compiles once. The real APK is checked with Android's `aapt` and `apksigner`, its complete ZIP is tested, and all thirteen preserved reading files plus the 604-page index are compared to this build's source.
+
+After those checks, CI creates an immutable public prerelease with the APK, checksum, source commit, public signing-certificate fingerprint and inspection report. It verifies the public download anonymously before site download links are changed. Existing release assets are never silently replaced. The old 0.1.0 public release is retained.
+
+This is still a debug trial. Its signing key is ephemeral and protected production signing/consistent future update identity is pending. Private signing keys are never uploaded as artifacts or committed to this public repository. Physical-device testing is separate from successful compilation and package inspection.

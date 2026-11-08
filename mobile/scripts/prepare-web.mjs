@@ -99,7 +99,7 @@ await build({entryPoints:[path.join(mobile,'src/app-native.js')],bundle:true,for
 // Record exact reuse of source Quran adapters and editions, not a claim of scholarly certification.
 const preserved=['mushaf-model.js','mushaf.js','mushaf.css','content/mushaf-pages.json','quran-integrity.js','reader.js','reader.css','editions.js','study.js','listen.js','reading-core.js','reading-data.js','progress-store.js'];
 const hashes={};for(const name of preserved){const data=await fs.readFile(path.join(source,name));if(!data.equals(await fs.readFile(path.join(out,name))))throw Error('Source changed: '+name);hashes[name]=createHash('sha256').update(data).digest('hex');}
-await fs.writeFile(path.join(out,'app-source-manifest.json'),JSON.stringify({version:'0.1.0',guestOnly:true,requiresNetwork:true,preserved:hashes},null,2));
+await fs.writeFile(path.join(out,'app-source-manifest.json'),JSON.stringify({version:JSON.parse(await fs.readFile(path.join(mobile,'package.json'),'utf8')).version,guestOnly:true,requiresNetwork:true,preserved:hashes},null,2));
 // Preserve the existing outlined wordmark; no font substitutions or generated Arabic.
 const icon=await fs.readFile(path.join(source,'favicon.svg'));
 for(const [density,size]of Object.entries({mdpi:48,hdpi:72,xhdpi:96,xxhdpi:144,xxxhdpi:192})){
