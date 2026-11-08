@@ -15,3 +15,7 @@ References checked 8 November 2026:
 - https://developer.apple.com/help/account/basics/about-your-developer-account
 - https://developer.apple.com/documentation/xcode/running-your-app-on-simulated-or-physical-devices
 - https://webkit.org/blog/12445/new-webkit-features-in-safari-15-4/
+
+## Verified build result
+
+GitHub Actions run 42475861706 succeeded from source commit `2bc16c155c29e07b1c9d0746a31fd9904df8510a`. The downloaded CI archive matched its server-provided SHA-256. Local ZIP and nested-package checks confirmed both actual 0.1.1/build 2 outputs, minimum iOS 16.4, the universal simulator architectures, iPhone arm64 executable and all 13 unchanged reading files. The handoff package adds a Dari installation guide while preserving the compiled archives byte for byte. Exact reports and checksums are retained in `ios-0.1.1-build.json` and its platform verification files. No phone installation, Apple signing or store submission is claimed.
