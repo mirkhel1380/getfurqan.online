@@ -97,7 +97,7 @@ for(const [lang,values]of Object.entries(messages)){
 await fs.copyFile(path.join(mobile,'src/app.css'),path.join(out,'app.css'));
 await build({entryPoints:[path.join(mobile,'src/app-native.js')],bundle:true,format:'iife',target:['chrome109','safari16.4'],outfile:path.join(out,'app-native.js'),legalComments:'eof'});
 // Record exact reuse of source Quran adapters and editions, not a claim of scholarly certification.
-const preserved=['quran-integrity.js','reader.js','reader.css','editions.js','study.js','listen.js','reading-core.js','reading-data.js','progress-store.js'];
+const preserved=['mushaf-model.js','mushaf.js','mushaf.css','content/mushaf-pages.json','quran-integrity.js','reader.js','reader.css','editions.js','study.js','listen.js','reading-core.js','reading-data.js','progress-store.js'];
 const hashes={};for(const name of preserved){const data=await fs.readFile(path.join(source,name));if(!data.equals(await fs.readFile(path.join(out,name))))throw Error('Source changed: '+name);hashes[name]=createHash('sha256').update(data).digest('hex');}
 await fs.writeFile(path.join(out,'app-source-manifest.json'),JSON.stringify({version:'0.1.0',guestOnly:true,requiresNetwork:true,preserved:hashes},null,2));
 // Preserve the existing outlined wordmark; no font substitutions or generated Arabic.

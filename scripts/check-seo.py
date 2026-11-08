@@ -48,7 +48,13 @@ for p in root.rglob('*.html'):
    old_translations='The display and language choices have been tested. Full independent comparison and review by a qualified Quran proofreader remain pending. Arabic text and fonts are provided by Quran.Foundation.'
    updated='Technical checks cover all 6,236 verses. Differences between published editions are recorded for qualified review. Source text is unchanged; full scholarly proofreading is still pending.'
    prior=prior.replace('<p>'+old_reader+'</p>','<p>'+updated+'</p><p>Guest reading stays in this browser. Private account sync is optional.</p>').replace(old_translations,updated)
-  assert prior==current,(name,'page/source content changed')
+  if name=='reader.html':
+   # Reader-owned page navigation and dialog change intentionally; keep source
+   # provenance, edition choices and the pre-existing settings exactly intact.
+   for tag,identifier in [('details','class="sources"'),('select','id="translation"'),('section','id="settings"')]:
+    segment=lambda value: re.search(r'<'+tag+r'\b[^>]*'+identifier+r'.*?</'+tag+'>',value,re.S)[0]
+    assert segment(prior)==segment(current),(name,identifier,'source controls changed')
+  else:assert prior==current,(name,'page/source content changed')
 changed=set(subprocess.check_output(['git','diff','--name-only','--','dist/content','dist/editions.js','dist/adhkar-data.js'],text=True).splitlines())
 assert changed<={'dist/content/topics-index.json'},'Published source data changed'
 state=lambda:{str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in root.rglob('*') if p.is_file()}
