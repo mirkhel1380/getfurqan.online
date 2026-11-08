@@ -17,8 +17,8 @@ with (bundle / 'Info.plist').open('rb') as handle:
     info = plistlib.load(handle)
 assert info['CFBundleIdentifier'] == 'online.getfurqan.app'
 assert info['CFBundleDisplayName'] == 'Al Furqan'
-assert info['CFBundleShortVersionString'] == '0.1.1'
-assert info['CFBundleVersion'] == '2'
+assert info['CFBundleShortVersionString'] == '0.1.2'
+assert info['CFBundleVersion'] == '3'
 assert info['MinimumOSVersion'] == '16.4'
 expected = 'iPhoneSimulator' if args.platform == 'simulator' else 'iPhoneOS'
 assert expected in info['CFBundleSupportedPlatforms'], info['CFBundleSupportedPlatforms']
@@ -41,11 +41,13 @@ mobile = Path(__file__).resolve().parents[1]
 assert (public / 'app-source-manifest.json').read_bytes() == (mobile / 'dist/app-source-manifest.json').read_bytes()
 assert len(manifest['preserved']) == 13
 assert manifest['requiresNetwork'] is True
-assert manifest['guestOnly'] is True
+assert manifest['guestOnly'] is False and manifest['optionalAccount'] is True
 for name, expected_hash in manifest['preserved'].items():
     assert hashlib.sha256((public / name).read_bytes()).hexdigest() == expected_hash, name
-for excluded in ['auth-config.js', 'auth-client.js', 'account.html', 'login.html', 'admin.html', '__app-preview.html']:
+for excluded in ['auth-callback.html','login.js','admin.html','__app-preview.html']:
     assert not (public / excluded).exists(), excluded
+for name in ['auth-config.js','auth-client.js','account.html','login.html','app-account.js','vendor/supabase-2.118.0.js']:
+    assert (public/name).read_bytes()==(mobile/'dist'/name).read_bytes(),name
 assert 'app-native.js' in (public / 'index.html').read_text()
 assert (bundle / 'Assets.car').is_file(), 'Compiled icon/splash assets missing'
 index=json.loads((public/'content/mushaf-pages.json').read_text())

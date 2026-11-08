@@ -1,5 +1,6 @@
 import { Capacitor, SystemBars, SystemBarsStyle } from '@capacitor/core';
 import { App } from '@capacitor/app';
+import { AppLauncher } from '@capacitor/app-launcher';
 
 function start() {
   const path = location.pathname;
@@ -14,7 +15,7 @@ function start() {
   addEventListener('online', connectivity);
   addEventListener('offline', connectivity);
   connectivity();
-  // The app uses the same guest data adapter; no native sign-in callbacks are advertised.
+  // Reuse optional-sync data; email callbacks stay outside the app.
   window.AFData?.ready.then(() => {
     const place = window.FurqanProgress?.read()?.resume;
     if (place && /^\d{1,3}:\d{1,3}$/.test(place.key)) {
@@ -38,13 +39,20 @@ function start() {
     }
     document.addEventListener('af:themechange', systemAppearance);
     systemAppearance();
+    App.addListener('appStateChange',({isActive})=>{
+      if(isActive){window.AF?.client?.auth.startAutoRefresh();window.AFData?.sync()}
+      else window.AF?.client?.auth.stopAutoRefresh();
+    });
     // Arbitrary external pages never replace the trusted local app origin.
     document.addEventListener('click', e => {
       const a = e.target.closest('a[href]');
       if (!a) return;
       const url = new URL(a.href);
       if (url.origin !== location.origin && ['https:', 'mailto:'].includes(url.protocol)) {
-        e.preventDefault(); window.open(url.href, '_system', 'noopener');
+        e.preventDefault();
+        AppLauncher.openUrl({url:url.href}).then(result=>{if(!result.completed)throw Error('Browser unavailable')}).catch(()=>{
+          if(status){status.textContent=window.AFI18n?.translate('Could not connect. Check your connection and try again.')||'Could not open this link.';status.hidden=false;}
+        });
       }
     });
   }

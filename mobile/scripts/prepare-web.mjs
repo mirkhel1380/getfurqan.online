@@ -4,11 +4,14 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { build } from 'esbuild';
 import sharp from 'sharp';
+import { accountPages } from './account-pages.mjs';
+import { accountMessages } from './account-messages.mjs';
 
 const mobile = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const root = path.dirname(mobile);
 export const source = await fs.access(path.join(root, 'dist/reader.html')).then(() => path.join(root, 'dist')).catch(() => root);
 const out = path.join(mobile, 'dist');
+const accountFiles=new Set(['auth-config.js','auth-client.js','auth.css','password-visibility.js','reading-sync-ui.js']);
 const excluded = /^(?:admin|account|auth(?:-|\.)|login|register|reset-password|forgot-password|password-visibility|contact(?:-|\.)|reading-sync)/;
 const svg = inner => `<svg viewBox="0 0 24 24" aria-hidden="true">${inner}</svg>`;
 const icons = {
@@ -41,19 +44,19 @@ await fs.rm(out, { recursive: true, force: true });
 await fs.mkdir(out, { recursive: true });
 // Explicit web-only allowlist supports both the native source repo and the public root mirror.
 for (const ent of await fs.readdir(source, { withFileTypes: true })) {
-  if (excluded.test(ent.name)) continue;
+  if (excluded.test(ent.name)&&!accountFiles.has(ent.name)) continue;
   if (ent.isFile() && /\.(?:html|css|js|mjs|json|svg|png|jpg|jpeg|webp|ico|woff2|txt)$/.test(ent.name)) await fs.copyFile(path.join(source, ent.name), path.join(out, ent.name));
   if (ent.isDirectory() && ['content', 'topics', 'hadith', 'locales'].includes(ent.name)) await fs.cp(path.join(source, ent.name), path.join(out, ent.name), { recursive: true });
 }
-// Remove a balanced, known account-sync section from app copies only.
-function removeSync(html) {
+// Extract the reviewed sync controls without rewriting the reading adapter.
+function syncSection(html) {
   const start = html.indexOf('<section class="reading-sync"');
-  if (start < 0) return html;
+  if (start < 0) throw Error('Missing reviewed sync controls');
   const tags = /<\/?section\b[^>]*>/g; tags.lastIndex = start;
   let depth = 0, match;
   while ((match = tags.exec(html))) {
     depth += match[0].startsWith('</') ? -1 : 1;
-    if (!depth) return html.slice(0, start) + html.slice(tags.lastIndex);
+    if (!depth) return html.slice(start,tags.lastIndex);
   }
   throw Error('Unbalanced reading sync section');
 }
@@ -61,6 +64,7 @@ const reader = await fs.readFile(path.join(source, 'reader.html'), 'utf8');
 const header = reader.match(/<header\b[\s\S]*?<\/header>/)[0];
 const drawer = reader.match(/<dialog\b[\s\S]*?<\/dialog>/)[0];
 const cards = [
+ ['/account.html','My account','Private reading sync','settings'],
  ['/translations.html','Translations','Explore meanings in 13 languages','topics'],
  ['/study.html','Tafsir & words','Read with care. Reflect with intention.','read'],
  ['/listen.html','Listen & recite','Recitations from Quran reciters','listen'],
@@ -68,38 +72,49 @@ const cards = [
  ['/search.html','Search & study','Search Quran','topics'],
  ['/topics.html','Islamic topics','Faith, worship and everyday life','read']
 ].map(([href,title,desc,icon])=>`<a class="app-card" href="${href}">${icons[icon]}<strong>${title}</strong><small>${desc}</small></a>`).join('');
-const home = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Al Furqan</title><script src="/theme.js"></script>${['navigation','branding','site-language','theme'].map(x=>`<link rel="stylesheet" href="/${x}.css">`).join('')}${['site-language','navigation','reading-core','reading-data','progress-store'].map(x=>`<script defer src="/${x}.js"></script>`).join('')}</head><body>${header}${drawer}<main class="app-home"><div class="app-welcome"><p>Make room for a quiet moment.</p><span data-i18n-ignore>AL FURQAN</span></div><section class="app-hero"><span class="app-hero-label">READ · UNDERSTAND · REFLECT</span><img src="/logo-light.svg" alt="Al Furqan" width="120" height="62"><h1>Read with care. Reflect with intention.</h1><p>The Noble Quran, in three scripts</p><a class="app-read" href="/reader.html"><span>Read Quran</span>${icons.arrow}</a></section><a id="app-resume" class="app-resume" href="/reader.html" hidden><span>Continue reading →</span><bdi dir="ltr"></bdi></a><div class="app-section-head"><h2>Explore Al Furqan</h2></div><section class="app-cards" aria-label="Explore Al Furqan">${cards}</section><p class="app-note">${noteKey}</p><p class="app-note"><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms &amp; Conditions</a> · <a href="mailto:contact@getfurqan.online">Contact</a></p></main></body></html>`;
+const home = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Al Furqan</title><script src="/theme.js"></script>${['navigation','branding','site-language','theme'].map(x=>`<link rel="stylesheet" href="/${x}.css">`).join('')}${['site-language','navigation','reading-core','reading-data','progress-store'].map(x=>`<script defer src="/${x}.js"></script>`).join('')}</head><body>${header}${drawer}<main class="app-home"><div class="app-welcome"><p>Make room for a quiet moment.</p><span data-i18n-ignore>AL FURQAN</span></div><section class="app-hero"><span class="app-hero-label">READ · UNDERSTAND · REFLECT</span><img src="/logo-light.svg" alt="Al Furqan" width="120" height="62"><h1>Read with care. Reflect with intention.</h1><p>The Noble Quran, in three scripts</p><a class="app-read" href="/reader.html"><span>Read Quran</span>${icons.arrow}</a></section><a id="app-resume" class="app-resume" href="/reader.html" hidden><span>Continue reading →</span><bdi dir="ltr"></bdi></a><div class="app-section-head"><h2>Explore Al Furqan</h2></div><section class="app-cards" aria-label="Explore Al Furqan">${cards}</section><p class="app-note">${noteKey} <span>Private account sync is optional.</span></p><p class="app-note"><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms &amp; Conditions</a> · <a href="mailto:contact@getfurqan.online">Contact</a></p></main></body></html>`;
 await fs.writeFile(path.join(out, 'index.html'), home);
+const sync=syncSection(await fs.readFile(path.join(source,'progress.html'),'utf8'));
+for(const [name,html]of Object.entries(accountPages(header,drawer,sync)))await fs.writeFile(path.join(out,name),html);
+await fs.mkdir(path.join(out,'vendor'),{recursive:true});
+await fs.copyFile(path.join(source,'vendor/supabase-2.118.0.js'),path.join(out,'vendor/supabase-2.118.0.js'));
+// Native sign-in never consumes tokens or email codes from a URL.
+const auth=await fs.readFile(path.join(source,'auth-client.js'),'utf8');
+if(!auth.includes('detectSessionInUrl:true'))throw Error('Review native auth configuration');
+await fs.writeFile(path.join(out,'auth-client.js'),auth.replace('detectSessionInUrl:true','detectSessionInUrl:false'));
+await fs.copyFile(path.join(mobile,'src/app-account.js'),path.join(out,'app-account.js'));
 async function transform(dir) {
  for (const ent of await fs.readdir(dir,{withFileTypes:true})) {
   const file=path.join(dir,ent.name);
   if(ent.isDirectory()) { await transform(file); continue; }
   if(!ent.name.endsWith('.html')) continue;
   let html=await fs.readFile(file,'utf8');
-  html=removeSync(html)
-    .replace(/<script\b[^>]*src=["']\/(?:vendor\/supabase[^"']*|auth-[^"']*|reading-sync[^"']*)["'][^>]*>\s*<\/script>/g,'')
-    .replace(/<a\b[^>]*(?:data-account-link|href=["']\/(?:login|account|admin|register|reset-password|forgot-password|auth-callback)\.html)[^>]*>[\s\S]*?<\/a>/g,'')
+  html=html
+    .replace(/<script\b[^>]*src=["']\/(?:vendor\/supabase[^"']*|auth-[^"']*)["'][^>]*>\s*<\/script>/g,'')
+    .replace(/<a\b[^>]*(?:href=["']\/(?:admin|register|reset-password|forgot-password|auth-callback)\.html)[^>]*>[\s\S]*?<\/a>/g,'')
     .replace(/href="\/contact\.html(?:#[^"]*)?"/g,'href="mailto:contact@getfurqan.online"')
     .replace(/<footer\b[\s\S]*?<\/footer>/g,'')
     .replace(/content="width=device-width,initial-scale=1"/g,'content="width=device-width,initial-scale=1,viewport-fit=cover"')
+    .replace(/<head>/,'<head><script defer src="/vendor/supabase-2.118.0.js"></script><script defer src="/auth-config.js"></script><script defer src="/auth-client.js"></script>')
     .replace(/<\/head>/,'<link rel="stylesheet" href="/app.css"><script defer src="/app-native.js"></script></head>')
     .replace(/<body([^>]*)>/,`<body$1><p id="app-offline" class="app-offline" role="status" hidden>${offlineKey}</p>`)
     .replace(/<\/body>/,tabs+'</body>');
-  html=html.replace(/<p class="progress-footer-note">[\s\S]*?<\/p>/,`<p class="progress-footer-note">${noteKey}</p>`);
+  html=html.replace(/<p class="progress-footer-note">[\s\S]*?<\/p>/,`<p class="progress-footer-note">${noteKey} <span>Private account sync is optional.</span></p>`);
   await fs.writeFile(file,html);
  }
 }
 await transform(out);
 for(const [lang,values]of Object.entries(messages)){
  const file=path.join(out,'locales',lang+'.json');const dict=JSON.parse(await fs.readFile(file,'utf8'));
- dict[noteKey]=values[0];dict[offlineKey]=values[1];await fs.writeFile(file,JSON.stringify(dict));
+ Object.assign(dict,accountMessages[lang]);dict[noteKey]=values[0];dict[offlineKey]=values[1];await fs.writeFile(file,JSON.stringify(dict));
 }
+await fs.writeFile(path.join(out,'site-language.js'),(await fs.readFile(path.join(source,'site-language.js'),'utf8')).replace("version='20261107-downloads1'","version='20261108-nativeaccounts2'"));
 await fs.copyFile(path.join(mobile,'src/app.css'),path.join(out,'app.css'));
 await build({entryPoints:[path.join(mobile,'src/app-native.js')],bundle:true,format:'iife',target:['chrome109','safari16.4'],outfile:path.join(out,'app-native.js'),legalComments:'eof'});
 // Record exact reuse of source Quran adapters and editions, not a claim of scholarly certification.
 const preserved=['mushaf-model.js','mushaf.js','mushaf.css','content/mushaf-pages.json','quran-integrity.js','reader.js','reader.css','editions.js','study.js','listen.js','reading-core.js','reading-data.js','progress-store.js'];
 const hashes={};for(const name of preserved){const data=await fs.readFile(path.join(source,name));if(!data.equals(await fs.readFile(path.join(out,name))))throw Error('Source changed: '+name);hashes[name]=createHash('sha256').update(data).digest('hex');}
-await fs.writeFile(path.join(out,'app-source-manifest.json'),JSON.stringify({version:JSON.parse(await fs.readFile(path.join(mobile,'package.json'),'utf8')).version,guestOnly:true,requiresNetwork:true,preserved:hashes},null,2));
+await fs.writeFile(path.join(out,'app-source-manifest.json'),JSON.stringify({version:JSON.parse(await fs.readFile(path.join(mobile,'package.json'),'utf8')).version,guestOnly:false,optionalAccount:true,emailFlows:'system-browser',requiresNetwork:true,preserved:hashes},null,2));
 // Preserve the existing outlined wordmark; no font substitutions or generated Arabic.
 const icon=await fs.readFile(path.join(source,'favicon.svg'));
 for(const [density,size]of Object.entries({mdpi:48,hdpi:72,xhdpi:96,xxhdpi:144,xxxhdpi:192})){

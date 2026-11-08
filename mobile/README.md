@@ -1,4 +1,4 @@
-# Al Furqan mobile · 0.1.1
+# Al Furqan mobile · 0.1.2
 
 Shared Android and iPhone foundation using Capacitor 8.6.0. The local app bundle contains a dedicated home screen, bottom navigation, 13 interface languages, theme controls and the existing Quran reading tools. It does not load the deployed website as its app shell.
 
@@ -15,7 +15,7 @@ npx cap sync
 
 Android requires Java 21 and Android SDK 36. Open `android/` in Android Studio, or run `bash ./gradlew assembleDebug` inside that directory. The GitHub workflow **Al Furqan Android trial** builds a debug APK and checksum, retained for 14 days. This is a trial build, not a store release. Local Android signing material and generated output must stay untracked.
 
-iOS 0.1.1/build 2 source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. The app requires iOS 16.4 or newer, aligned with the shared JavaScript build target. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
+iOS 0.1.2/build 3 source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. The app requires iOS 16.4 or newer, aligned with the shared JavaScript build target. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
 
 The development application ID is `online.getfurqan.app`; the display name is **Al Furqan**. Confirm availability in the owner's store accounts before the first release. The website remains at `getfurqan.online`.
 
@@ -27,7 +27,7 @@ The source website files are not changed by the mobile build. App icon and splas
 
 ## Current boundaries
 
-- Guest reading only. Bookmarks, reading place, history and study notes stay in the app's local web storage. They are separate from website/browser data. App removal or clearing its storage can remove them. Android cloud backup is disabled.
+- Guest reading works without an account. Optional native email/password sign-in uses the same verified account and private reading sync as the website. Import is explicit; guest and account caches stay separate. Email signup/reset/resend open the system browser. App removal can discard local and unsynced data. Android cloud backup is disabled.
 - Quran text, font files, recitation, translations and tafsir still require their existing network sources. The shell and owned topic data are bundled. This is not a full offline Quran package.
 - Native account sign-in, confirmation/reset deep links, account deletion, private sync, notifications, background audio and native location permissions are subsequent stages. Web account scripts and private/admin/contact-form routes are excluded from the bundle. Contact opens the published support email.
 - Android back closes a dialog, returns through history, returns home, then exits from home. External source links open outside the trusted local app origin.
@@ -53,3 +53,9 @@ After those checks, CI creates an immutable public prerelease with the APK, chec
 This is still a debug trial. Its signing key is ephemeral and protected production signing/consistent future update identity is pending. Private signing keys are never uploaded as artifacts or committed to this public repository. Physical-device testing is separate from successful compilation and package inspection.
 
 Android publication now requires an explicit version change in its Gradle configuration or the manual publish option. iOS-only builds do not replace the existing Android release.
+
+## Account-enabled source 0.1.2
+
+Build 3 adds optional native sign-in, profile editing, private reading sync and an account deletion request by email. Email-link flows open the phone’s system browser through the pinned AppLauncher plugin; confirm in that browser, return to the app and sign in. The app does not accept authentication tokens from URLs. Admin routes are omitted. Session credentials remain in the app’s sandboxed web storage; no claim of hardware-backed encryption is made.
+
+CI compiles trial artifacts only. It no longer publishes ephemeral-key builds automatically. The public 0.1.1 APK and existing iOS download remain unchanged. Stable Android signing, owner iOS signing, store submission and physical-device account tests remain separate pending work. Do not uninstall an earlier app to install an internal CI build and lose local data.

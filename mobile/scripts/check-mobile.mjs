@@ -12,6 +12,9 @@ assert.equal(config.webDir,'dist');
 assert(!config.server?.url&&!config.server?.cleartext&&!config.server?.allowNavigation,'No dev origin or navigation allowlist may ship');
 const manifest=JSON.parse(await fs.readFile(path.join(out,'app-source-manifest.json'),'utf8'));
 for(const [name,hash]of Object.entries(manifest.preserved))assert.equal(createHash('sha256').update(await fs.readFile(path.join(out,name))).digest('hex'),hash,name);
+assert.equal(manifest.guestOnly,false);assert.equal(manifest.optionalAccount,true);assert.equal(manifest.emailFlows,'system-browser');
+assert((await fs.readFile(path.join(out,'auth-client.js'),'utf8')).includes('detectSessionInUrl:false'));
+assert(!(await fs.readFile(path.join(out,'login.html'),'utf8')).includes('/login.js'));
 let pages=0,links=0;
 async function scan(dir){
  for(const entry of await fs.readdir(dir,{withFileTypes:true})){
@@ -20,9 +23,10 @@ async function scan(dir){
   if(!entry.name.endsWith('.html'))continue;
   const html=await fs.readFile(file,'utf8');pages++;
   assert(html.includes('/app-native.js')&&html.includes('viewport-fit=cover'),file);
-  assert(!/<script\b[^>]*src="\/(?:auth-|vendor\/supabase|reading-sync)/.test(html),'Native auth not enabled: '+file);
-  assert(!/href="\/(?:login|admin|account|register|reset-password|forgot-password|auth-callback|contact)\.html/.test(html),'Unavailable native route: '+file);
-  assert(!html.includes('class="reading-sync"'),'No unfinished sync controls');
+  assert(html.indexOf('/auth-client.js')<html.indexOf('/reading-data.js')||!html.includes('/reading-data.js'),'Auth must precede the reading adapter');
+  assert.equal((html.match(/src="\/auth-client.js/g)||[]).length,1,'One shared auth client');
+  assert(!/href="\/(?:admin|register|reset-password|forgot-password|auth-callback|contact)\.html/.test(html),'Unavailable native route: '+file);
+
   for(const match of html.matchAll(/(?:href|src)="([^"#]+)"/g)){
    const value=match[1];if(/^(?:https?:|mailto:|data:|tel:)/.test(value))continue;
    const url=new URL(value,'https://local.app/'+path.relative(out,file));

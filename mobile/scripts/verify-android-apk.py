@@ -19,7 +19,7 @@ def main():
  apk=args.apk.resolve();mobile=Path(__file__).resolve().parents[1]
  badging=subprocess.check_output([args.aapt,'dump','badging',str(apk)],text=True)
  package=re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'",badging)
- assert package and package.groups()==('online.getfurqan.app.trial','2','0.1.1-trial'), 'Wrong package/version'
+ assert package and package.groups()==('online.getfurqan.app.trial','3','0.1.2-trial'), 'Wrong package/version'
  assert "sdkVersion:'24'" in badging and "targetSdkVersion:'36'" in badging
  assert "application-label:'Al Furqan Trial'" in badging
  signature=subprocess.check_output([args.apksigner,'verify','--verbose','--print-certs',str(apk)],text=True)
@@ -28,7 +28,7 @@ def main():
   print(signature,file=sys.stderr)
   raise
  manifest=json.loads((mobile/'dist/app-source-manifest.json').read_text())
- assert manifest['guestOnly'] is True and manifest['requiresNetwork'] is True
+ assert manifest['guestOnly'] is False and manifest['optionalAccount'] is True and manifest['requiresNetwork'] is True
  with zipfile.ZipFile(apk) as archive:
   assert archive.testzip() is None
   names=set(archive.namelist());prefix='assets/public/'
@@ -36,8 +36,10 @@ def main():
   assert len(manifest['preserved'])>=13
   for name,expected in manifest['preserved'].items():
    assert hashlib.sha256(archive.read(prefix+name)).hexdigest()==expected,name
-  for name in ['auth-config.js','auth-client.js','login.html','account.html','admin.html']:
+  for name in ['admin.html','auth-callback.html','login.js']:
    assert prefix+name not in names,name
+  for name in ['auth-config.js','auth-client.js','login.html','account.html','app-account.js','vendor/supabase-2.118.0.js']:
+   assert archive.read(prefix+name)==(mobile/'dist'/name).read_bytes(),name
   assert not any(name.endswith(('.jks','.keystore')) for name in names),'Signing keys must never be packaged'
   reader=archive.read(prefix+'reader.html').decode()
   assert 'data-view="mushaf"' in reader and 'mushaf-pages' in reader
@@ -51,7 +53,7 @@ def main():
   'package':package[1],'version_code':int(package[2]),'version_name':package[3],
   'minimum_android':24,'target_sdk':36,'certificate_sha256':certificate,
   'source_commit':commit,'source_workflow_run':int(os.environ['GITHUB_RUN_ID']),
-  'preserved':manifest['preserved'],'mushaf_pages':604,'guest_only':True,'requires_network':True,
+  'preserved':manifest['preserved'],'mushaf_pages':604,'guest_only':False,'optional_account':True,'requires_network':True,
   'trial':True,'physical_device_tested':False,'updates_original_0_1_0':False,
   'signing':'ephemeral-debug-trial','production_signing_pending':True
  },indent=2))

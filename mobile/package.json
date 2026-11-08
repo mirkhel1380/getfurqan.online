@@ -1,6 +1,6 @@
 {
   "name": "al-furqan-mobile",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/prepare-web.mjs",
-    "check": "node scripts/check-mobile.mjs",
+    "check": "node scripts/check-mobile.mjs && node scripts/check-native-account.mjs",
     "sync": "npm run build && cap sync",
     "android": "cap open android",
     "ios": "cap open ios"
@@ -16,6 +16,7 @@
   "dependencies": {
     "@capacitor/android": "8.6.0",
     "@capacitor/app": "8.1.2",
+    "@capacitor/app-launcher": "8.0.1",
     "@capacitor/core": "8.6.0",
     "@capacitor/ios": "8.6.0"
   },
