@@ -6,8 +6,9 @@ from android_signing import identity
 def signing_fingerprint(report):
  # Recent SDKs label signers by signature scheme or API range rather than signer number.
  # The apksigner process must also succeed; this only parses its verified report.
- fingerprints=set(re.findall(r'^(?:Signer (?:#\d+|\([^\n]*\))|V2 Signer:) certificate SHA-256 digest: ([0-9a-fA-F]{64})$',report,re.M))
- if len(fingerprints)!=1 or 'Verified using v2 scheme (APK Signature Scheme v2): true' not in report:
+ fingerprints=set(re.findall(r'^(?:Signer (?:#\d+|\([^\n]*\))|V(?:2|3\.0) Signer:) certificate SHA-256 digest: ([0-9a-fA-F]{64})$',report,re.M))
+ counts=set(re.findall(r'^Number of signers: (\d+)$',report,re.M))
+ if len(fingerprints)!=1 or (counts and counts!={'1'}) or 'Verified using v2 scheme (APK Signature Scheme v2): true' not in report:
   raise ValueError('Expected one verified v2 signer and its public certificate fingerprint')
  return next(iter(fingerprints)).lower()
 

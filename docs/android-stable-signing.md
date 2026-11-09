@@ -62,3 +62,9 @@ Android workflow 42552140475 succeeded from public source `07f862d9b3e357db784f3
 ## Owner certificate received
 
 Public certificate SHA-256: `338ea13cdf5ddb0c11b902e2e6b16a6a4f7a8d352881948cbcaef6d096938e2e`. The package remains `online.getfurqan.app.stable`, alias `alfurqan`. This identity comes from the owner-provided local generation result; matching it to the secret keystore and an actual signed APK remains the protected workflow's job. No private key, base64 keystore or password was requested/received. Environment secret contents and protection settings cannot be independently read through the available connector.
+
+## First owner-signed run and verifier correction
+
+Manual run 42558952133 compiled successfully, waited for the owner review and signed using the configured environment secrets. The signing helper confirmed the pinned owner certificate and removed temporary private material. SDK `apksigner verify` exited successfully with v2/v3 verification true, one signer and the exact owner SHA-256. The final inspection then stopped because this SDK labelled its certificate `V3.0 Signer:`, which the old text parser did not recognize. No final artifact was uploaded from that failed run.
+
+The parser now accepts this observed label while continuing to require a verified v2 signature, one unambiguous certificate, an explicit single signer when the SDK reports a count, and the unchanged owner certificate pin. Regression tests preserve the public fields of the observed report, reject missing-v2/multiple/ambiguous cases, and exercise the parser on both real disposable APK signatures in CI. A new manual main-branch run is required because rerunning the old commit would use its old parser. Existing owner key/password/environment secrets remain valid. This correction is not a claim of final APK delivery or physical-device testing.

@@ -90,6 +90,9 @@ with tempfile.TemporaryDirectory(prefix='af-disposable-signing-test-') as direct
    report=subprocess.check_output([args.apksigner,'verify','--verbose','--print-certs',str(output)],text=True)
    assert 'Verified using v2 scheme (APK Signature Scheme v2): true' in report
    assert digest in report
+   # Exercise the production report parser too, not only SDK verification.
+   v_spec=importlib.util.spec_from_file_location('verify_apk_fixture',mobile/'scripts/verify-android-apk.py');v_module=importlib.util.module_from_spec(v_spec);v_spec.loader.exec_module(v_module)
+   assert v_module.signing_fingerprint(report)==digest
    reports.append(output)
   assert not list(root.glob('af-signing-*')),'Temporary key survived successful signing'
   try:sign_apk(unsigned,reports[0],digest,encoded,password,args.apksigner,temp_root=root)

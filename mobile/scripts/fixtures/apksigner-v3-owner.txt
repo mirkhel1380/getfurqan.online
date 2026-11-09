@@ -1,0 +1,13 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v3.2 scheme (APK Signature Scheme v3.2): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+V3.0 Signer: certificate DN: CN=Al Furqan
+V3.0 Signer: certificate SHA-256 digest: 338ea13cdf5ddb0c11b902e2e6b16a6a4f7a8d352881948cbcaef6d096938e2e
+V3.0 Signer: key algorithm: RSA
+V3.0 Signer: key size (bits): 3072
