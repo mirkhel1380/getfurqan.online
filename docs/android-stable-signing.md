@@ -54,3 +54,7 @@ Local checks exercise unconfigured/changed identity refusal, malformed/oversized
 Remaining owner work: generate/back up the persistent key, create/protect the environment, add the two secrets and share the public certificate for source pinning. After that, dispatch/approve the stable signing workflow, inspect its actual certificate/artifact and test installation/updating on a real phone before changing public downloads. Until then this stage is **prepared, not production signing complete**.
 
 Primary references: [Android app signing](https://developer.android.com/studio/publish/app-signing), [apksigner](https://developer.android.com/tools/apksigner), [GitHub environment protections/secrets](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
+
+## Verified preparation build
+
+Android workflow 42552140475 succeeded from public source `07f862d9b3e357db784f3a5e41b887a15a2f5ac1`. It compiled/tests both debug and release variants, checked the distinct unsigned stable identity/alignment, then signed a real compiled APK twice with one disposable fixture key and verified both v2 signatures, mismatch rejection and cleanup. iOS regression workflow 42552140453 also succeeded; the iOS source/version was not changed. See `android-stable-signing-verification.json`. No owner-signed release, protected environment setup, physical-device update or public download change is claimed.

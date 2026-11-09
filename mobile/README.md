@@ -29,7 +29,7 @@ The source website files are not changed by the mobile build. App icon and splas
 
 - Guest reading works without an account. Optional native email/password sign-in uses the same verified account and private reading sync as the website. Import is explicit; guest and account caches stay separate. Email signup/reset/resend open the system browser. App removal can discard local and unsynced data. Android cloud backup is disabled.
 - Quran text, font files, recitation, translations and tafsir still require their existing network sources. The shell and owned topic data are bundled. This is not a full offline Quran package.
-- Native account sign-in, confirmation/reset deep links, account deletion, private sync, notifications, background audio and native location permissions are subsequent stages. Web account scripts and private/admin/contact-form routes are excluded from the bundle. Contact opens the published support email.
+- Native password sign-in/profile/private sync, downloaded recitation and native background playback are implemented in the source described below. Email-link callbacks remain in the system browser. Automatic account deletion, notifications and native location permissions remain separate work. Private/admin/contact-form routes are excluded; contact opens the support email.
 - Android back closes a dialog, returns through history, returns home, then exits from home. External source links open outside the trusted local app origin.
 - Insets use both Capacitor's Android safe-area variables and iOS safe-area values. Physical devices must still verify notches, keyboard, navigation gestures, color fonts, audio and right-to-left layout.
 

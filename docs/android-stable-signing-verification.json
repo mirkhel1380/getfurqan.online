@@ -1,0 +1,32 @@
+{
+  "status": "prepared-owner-key-required",
+  "compiled_github_source": "07f862d9b3e357db784f3a5e41b887a15a2f5ac1",
+  "native_source": "e4e7108a88a55f860621d8d8d81b1d6de73e55e5",
+  "android_run": 42552140475,
+  "android_job": 128949855966,
+  "android_workflow_conclusion": "success",
+  "ios_regression_run": 42552140453,
+  "ios_workflow_conclusion": "success",
+  "stable_package": "online.getfurqan.app.stable",
+  "version": "0.1.5",
+  "version_code": 6,
+  "checks": {
+    "unsigned_stable_compiled": true,
+    "non_debuggable_release": true,
+    "zip_alignment": true,
+    "same_disposable_key_signed_real_apk_twice": true,
+    "both_v2_signatures_verified": true,
+    "wrong_certificate_rejected_before_signing": true,
+    "existing_key_and_output_preserved": true,
+    "temporary_key_cleanup": true,
+    "no_build_install_with_signing_secrets": true,
+    "private_key_not_committed_or_uploaded": true
+  },
+  "owner_certificate_pinned": false,
+  "owner_key_generated": false,
+  "environment_secrets_configured": false,
+  "owner_signed_apk_created": false,
+  "physical_device_tested": false,
+  "public_downloads_changed": false,
+  "required_owner_step": "Create and securely back up the owner JKS; configure android-release protections and two secrets; share only the public certificate for pinning before manual signing."
+}
