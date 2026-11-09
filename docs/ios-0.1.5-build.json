@@ -1,0 +1,20 @@
+{
+  "version": "0.1.5",
+  "build": 6,
+  "minimum_ios": "16.4",
+  "source_commit": "9c252192a62c5f10e26b7aabcf48867a1715d01d",
+  "source_workflow_run": 42539269361,
+  "signed_for_distribution": false,
+  "installable_ipa": false,
+  "physical_device_tested": false,
+  "files": {
+    "Al-Furqan-iOS-simulator.zip": {
+      "bytes": 4378446,
+      "sha256": "d0f56f69c123b203ffee46afbfd70dd11190d215f3f21b9c8213365fd77fe0e1"
+    },
+    "Al-Furqan-iOS-unsigned-archive.zip": {
+      "bytes": 6643750,
+      "sha256": "6d04f466727303589bcc3b8fcded5e8fb8d2b0b510afb154f5244ec9d5669a30"
+    }
+  }
+}

@@ -27,3 +27,7 @@ A backup cannot recover data from an earlier installed app that has no export op
 - Owner-signed iPhone and real Android Files/share-sheet and migration tests remain pending. Current public downloads are unchanged.
 
 Primary references: [Capacitor Share v8](https://capacitorjs.com/docs/apis/share), [Filesystem v8](https://capacitorjs.com/docs/apis/filesystem), [Android FileProvider setup](https://developer.android.com/training/secure-file-sharing/setup-sharing).
+
+## Compiled build evidence
+
+Both required native workflows succeeded for GitHub source `9c252192a62c5f10e26b7aabcf48867a1715d01d`: Android run 42539269314 and iOS run 42539269361. The downloaded raw artifact digests matched GitHub metadata; actual nested APK/simulator/archive bytes were checked for exact backup UI, Share plugin code/registration, all 13 preserved source hashes and no preview helpers. Details are in `android-0.1.5-verification.json`, `ios-0.1.5-*.json` and `reading-backup-verification.json`. These are internal build artifacts; Android still uses an ephemeral trial key and the iPhone archive remains unsigned. Neither successful compilation nor browser file-picker QA substitutes for physical-device Files/share-sheet testing.
