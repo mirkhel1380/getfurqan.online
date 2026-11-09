@@ -7,10 +7,11 @@ parser=argparse.ArgumentParser();parser.add_argument('--android-qr-png',type=Pat
 root=Path(__file__).resolve().parents[1];data=json.loads((root/'docs/app-downloads.json').read_text());apk=data['android']
 assert re.fullmatch(r'\d+\.\d+\.\d+',apk['version'])
 expected=f"https://github.com/mirkhel1380/getfurqan.online/releases/download/android-v{apk['version']}/Al-Furqan-Android-{apk['version']}.apk"
-assert apk['url']==expected and apk['trial'] is True
+assert apk['url']==expected and apk['trial'] is False and apk['preview'] is True
+assert apk['productionSigningPending'] is False and apk['physicalDeviceTested'] is False
 assert re.fullmatch('[0-9a-f]{64}',apk['sha256']) and re.fullmatch('[0-9a-f]{40}',apk['sourceCommit'])
 assert apk['bytes']>1_000_000 and apk['sourceWorkflowRun']>0
-assert apk['package']=='online.getfurqan.app.trial' and apk['installsAlongsideOriginal'] is True
+assert apk['package']=='online.getfurqan.app.stable' and apk['installsAlongsideOriginal'] is True
 class Links(HTMLParser):
  def __init__(self):super().__init__();self.downloads=[];self.qrs=[];self.notes=0
  def handle_starttag(self,tag,attrs):
@@ -23,9 +24,12 @@ assert links.downloads==[expected] and links.notes==1
 assert any(s.startswith('/download-android-qr.svg?')for s in links.qrs)
 assert f"v{apk['version']} · {apk['bytes']/1_000_000:.1f} MB · Android 7+" in html
 assert data['iphone']['nativeIpaDownload'] is False and 'id="install-iphone"'in html
-report=json.loads((root/'docs/android-0.1.1-verification.json').read_text())
+report=json.loads((root/apk['verificationReport']).read_text())
 assert report['sha256']==apk['sha256'] and report['source_commit']==apk['sourceCommit']
 assert report['bytes']==apk['bytes'] and report['mushaf_pages']==604
+assert report['package']==apk['package'] and report['version_name']==apk['version']
+assert report['certificate_sha256']==apk['certificateSha256']==json.loads((root/'mobile/android-signing.json').read_text())['certificate_sha256']
+assert report['signing']=='pinned-owner-key' and report['production_signing_pending'] is False
 if args.android_qr_png:
  import zxingcpp
  from PIL import Image

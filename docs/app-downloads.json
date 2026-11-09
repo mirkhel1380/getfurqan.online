@@ -1,5 +1,28 @@
 {
   "android": {
+    "url": "https://github.com/mirkhel1380/getfurqan.online/releases/download/android-v0.1.5/Al-Furqan-Android-0.1.5.apk",
+    "version": "0.1.5",
+    "trial": false,
+    "preview": true,
+    "minimumAndroid": "7.0",
+    "bytes": 8338307,
+    "sha256": "4d354e88222a3fd1e5d58b0d86c4f420bd56040af79b36d0fe0dc2a694f9e834",
+    "sourceCommit": "d808626344ddc6650841f3acbb6fbf7403089e4c",
+    "sourceWorkflowRun": 42560266594,
+    "package": "online.getfurqan.app.stable",
+    "installsAlongsideOriginal": true,
+    "productionSigningPending": false,
+    "physicalDeviceTested": false,
+    "certificateSha256": "338ea13cdf5ddb0c11b902e2e6b16a6a4f7a8d352881948cbcaef6d096938e2e",
+    "verificationReport": "docs/android-0.1.5-public-verification.json"
+  },
+  "iphone": {
+    "url": "https://getfurqan.online/#install-iphone",
+    "mode": "safari-web-app",
+    "nativeIpaDownload": false,
+    "requiresNetworkForQuran": true
+  },
+  "previousAndroidTrial": {
     "url": "https://github.com/mirkhel1380/getfurqan.online/releases/download/android-v0.1.1/Al-Furqan-Android-0.1.1.apk",
     "version": "0.1.1",
     "trial": true,
@@ -12,21 +35,5 @@
     "installsAlongsideOriginal": true,
     "productionSigningPending": true,
     "physicalDeviceTested": false
-  },
-  "iphone": {
-    "url": "https://getfurqan.online/#install-iphone",
-    "mode": "safari-web-app",
-    "nativeIpaDownload": false,
-    "requiresNetworkForQuran": true
-  },
-  "previousAndroidTrial": {
-    "url": "https://github.com/mirkhel1380/getfurqan.online/releases/download/android-v0.1.0/Al-Furqan-Android-0.1.0.apk",
-    "version": "0.1.0",
-    "trial": true,
-    "minimumAndroid": "7.0",
-    "bytes": 6640789,
-    "sha256": "6acf69c0d6c686204d08d203fa5f4538bf96b98a4435c346d076e79bc4cf0402",
-    "sourceCommit": "b6fd1305c9a8581736c34e0764128fe62ad6808e",
-    "sourceWorkflowRun": 42387993197
   }
 }

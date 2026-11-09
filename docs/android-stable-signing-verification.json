@@ -32,8 +32,8 @@
   "environment_secrets_configured": true,
   "owner_signed_apk_created": true,
   "physical_device_tested": false,
-  "public_downloads_changed": false,
-  "required_owner_step": "Install the delivered stable 0.1.5 APK alongside older versions and test reading, audio, login and saved progress on a physical Android phone before changing public downloads.",
+  "public_downloads_changed": true,
+  "required_owner_step": "Test installation, reading, background audio, login and saved progress on a physical Android phone; public download is labelled preview.",
   "owner_certificate_sha256": "338ea13cdf5ddb0c11b902e2e6b16a6a4f7a8d352881948cbcaef6d096938e2e",
   "owner_key_generation_evidence": "Owner supplied successful local key-generator output and this public SHA-256; no private key/password received.",
   "environment_protection_status": "Observed android-release reviewer gate on run 42560266594. Approved through the existing signed-in owner account at the explicit request to finish the build; no protection rules or secrets changed. Main-branch restriction was previously owner-reported.",
@@ -49,5 +49,7 @@
     "archive_sha256": "23960ea0cc4a86a8699860eeb8fa76067a96b446a6f0cd0989dbb09931e768fe",
     "apk_sha256": "4d354e88222a3fd1e5d58b0d86c4f420bd56040af79b36d0fe0dc2a694f9e834",
     "bytes": 8338307
-  }
+  },
+  "public_release_url": "https://github.com/mirkhel1380/getfurqan.online/releases/tag/android-v0.1.5",
+  "public_release_authorization": "Owner explicitly requested updating website QR/download to 0.1.5 before physical-device testing; published as preview."
 }

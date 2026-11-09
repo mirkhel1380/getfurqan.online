@@ -15,7 +15,24 @@
     pt: 'Instala-se ao lado da versão de teste anterior. Os itens guardados permanecem na aplicação original.',
     id: 'Dipasang berdampingan dengan versi uji coba sebelumnya. Item tersimpan tetap berada di aplikasi lama.'
   };
+  const descriptions = {
+    "en": "Download the signed Android preview APK.",
+    "prs": "فایل APK نسخهٔ پیش‌نمایش امضاشدهٔ اندروید را دانلود کنید.",
+    "ps": "د انډرایډ لاسلیک شوی مخکتنی APK فایل ډاونلوډ کړئ.",
+    "fa": "فایل APK نسخهٔ پیش‌نمایش امضاشدهٔ اندروید را دانلود کنید.",
+    "de": "Laden Sie die signierte Android-Vorschau als APK herunter.",
+    "nl": "Download de ondertekende Android-preview als APK.",
+    "fr": "Téléchargez l’APK signé de la version préliminaire Android.",
+    "it": "Scarica l’APK firmato della versione di anteprima Android.",
+    "ur": "اینڈرائیڈ کے دستخط شدہ پیش نظارہ ورژن کی APK ڈاؤن لوڈ کریں۔",
+    "tr": "İmzalı Android önizleme APK’sını indirin.",
+    "es": "Descarga el APK firmado de la versión preliminar para Android.",
+    "pt": "Descarregue o APK assinado da versão de pré-visualização para Android.",
+    "id": "Unduh APK pratinjau Android yang ditandatangani."
+};
   function translateLabels() {
+    const description = document.querySelector('[data-app-download-description]');
+    if (description) description.textContent = descriptions[window.AFI18n?.language] || descriptions.en;
     const note = document.querySelector('[data-app-trial-note]');
     if (note) note.textContent = trialNotes[window.AFI18n?.language] || trialNotes.en;
     for (const image of document.querySelectorAll('.app-download-qr')) {
