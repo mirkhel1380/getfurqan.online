@@ -1,9 +1,9 @@
 {
-  "status": "owner-signing-confirmed-verifier-v3-label-fixed-awaiting-new-run",
-  "compiled_github_source": "07f862d9b3e357db784f3a5e41b887a15a2f5ac1",
-  "native_source": "e4e7108a88a55f860621d8d8d81b1d6de73e55e5",
-  "android_run": 42552140475,
-  "android_job": 128949855966,
+  "status": "owner-signed-apk-verified-delivered-awaiting-physical-test",
+  "compiled_github_source": "d808626344ddc6650841f3acbb6fbf7403089e4c",
+  "native_source": "06ebdc8d64dc069da4d5cf36d53a37d3664e48de",
+  "android_run": 42560266594,
+  "android_job": 128974934774,
   "android_workflow_conclusion": "success",
   "ios_regression_run": 42552140453,
   "ios_workflow_conclusion": "success",
@@ -20,7 +20,12 @@
     "existing_key_and_output_preserved": true,
     "temporary_key_cleanup": true,
     "no_build_install_with_signing_secrets": true,
-    "private_key_not_committed_or_uploaded": true
+    "private_key_not_committed_or_uploaded": true,
+    "final_workflow_success": true,
+    "downloaded_archive_digest_matches_github": true,
+    "downloaded_apk_matches_ci_checksum": true,
+    "packaged_preserved_files_match_source": true,
+    "packaged_native_account_download_backup_files_match_source": true
   },
   "owner_certificate_pinned": true,
   "owner_key_generated": true,
@@ -28,15 +33,21 @@
   "owner_signed_apk_created": true,
   "physical_device_tested": false,
   "public_downloads_changed": false,
-  "required_owner_step": "Run the stable workflow again from updated main and approve android-release. Keep the existing owner key and secrets; verification/upload must succeed before a release is delivered.",
+  "required_owner_step": "Install the delivered stable 0.1.5 APK alongside older versions and test reading, audio, login and saved progress on a physical Android phone before changing public downloads.",
   "owner_certificate_sha256": "338ea13cdf5ddb0c11b902e2e6b16a6a4f7a8d352881948cbcaef6d096938e2e",
   "owner_key_generation_evidence": "Owner supplied successful local key-generator output and this public SHA-256; no private key/password received.",
-  "environment_protection_status": "Owner reported android-release and reviewer/main-branch rules configured; not independently inspected.",
-  "signed_apk_release_verified": false,
-  "owner_signed_run": 42558952133,
-  "owner_sign_job": 128971659251,
+  "environment_protection_status": "Observed android-release reviewer gate on run 42560266594. Approved through the existing signed-in owner account at the explicit request to finish the build; no protection rules or secrets changed. Main-branch restriction was previously owner-reported.",
+  "signed_apk_release_verified": true,
+  "owner_signed_run": 42560266594,
+  "owner_sign_job": 128975746052,
   "owner_sign_step_conclusion": "success",
   "owner_sdk_v2_v3_verification": true,
-  "final_verifier_failure": "SDK prints V3.0 Signer: instead of the older signer labels; public certificate matches the pinned owner identity.",
-  "v3_label_regression_test_passed": true
+  "final_verifier_failure": null,
+  "v3_label_regression_test_passed": true,
+  "artifact": {
+    "id": 13649650880,
+    "archive_sha256": "23960ea0cc4a86a8699860eeb8fa76067a96b446a6f0cd0989dbb09931e768fe",
+    "apk_sha256": "4d354e88222a3fd1e5d58b0d86c4f420bd56040af79b36d0fe0dc2a694f9e834",
+    "bytes": 8338307
+  }
 }
