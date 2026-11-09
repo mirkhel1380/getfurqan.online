@@ -1,5 +1,5 @@
 {
-  "status": "prepared-owner-key-required",
+  "status": "owner-certificate-pinned-awaiting-secret-setup-and-signed-build",
   "compiled_github_source": "07f862d9b3e357db784f3a5e41b887a15a2f5ac1",
   "native_source": "e4e7108a88a55f860621d8d8d81b1d6de73e55e5",
   "android_run": 42552140475,
@@ -22,11 +22,14 @@
     "no_build_install_with_signing_secrets": true,
     "private_key_not_committed_or_uploaded": true
   },
-  "owner_certificate_pinned": false,
-  "owner_key_generated": false,
-  "environment_secrets_configured": false,
+  "owner_certificate_pinned": true,
+  "owner_key_generated": true,
+  "environment_secrets_configured": null,
   "owner_signed_apk_created": false,
   "physical_device_tested": false,
   "public_downloads_changed": false,
-  "required_owner_step": "Create and securely back up the owner JKS; configure android-release protections and two secrets; share only the public certificate for pinning before manual signing."
+  "required_owner_step": "Securely back up the owner JKS/password; add the two environment secrets; dispatch and approve the manual stable workflow. Verify the actual signed APK before changing public downloads.",
+  "owner_certificate_sha256": "338ea13cdf5ddb0c11b902e2e6b16a6a4f7a8d352881948cbcaef6d096938e2e",
+  "owner_key_generation_evidence": "Owner supplied successful local key-generator output and this public SHA-256; no private key/password received.",
+  "environment_protection_status": "Owner reported android-release and reviewer/main-branch rules configured; not independently inspected."
 }
