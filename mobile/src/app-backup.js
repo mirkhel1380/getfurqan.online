@@ -15,7 +15,7 @@ function render(){
  const guest=data.state().phase==='guest';$('backup-account').hidden=guest;
  for(const id of ['backup-export','backup-file','backup-restore','backup-cancel'])$(id).disabled=busy||!guest;
  if(!guest)clear();
- else if(preview){const plan=model.plan(model.snapshot(data),preview.records);$('backup-plan').textContent=tr('New items')+': '+plan.added+' · '+tr('Existing values kept')+': '+plan.kept;}
+ else if(preview){try{const plan=model.plan(model.snapshot(data),preview.records);$('backup-plan').textContent=tr('New items')+': '+plan.added+' · '+tr('Existing values kept')+': '+plan.kept;}catch{clear();message('Could not complete the backup action. Please try again.',true)}}
 }
 async function run(fn){if(busy)return;busy=true;render();try{await fn()}catch(e){if(/^Share cancel(?:ed|led)$/i.test(e.message))message('No changes made.');else message(errors.has(e.message)?e.message:'Could not complete the backup action. Please try again.',true)}finally{busy=false;render()}}
 function requireGuest(){if(data.state().phase!=='guest')throw Error('Sign out to use a guest backup. Account reading uses private sync.')}
@@ -37,10 +37,10 @@ $('backup-export').onclick=()=>run(async()=>{
 $('backup-file').onchange=()=>run(async()=>{
  const file=$('backup-file').files[0];clear();if(!file)return;requireGuest();
  if(file.size>MAX_BACKUP_BYTES)throw Error('Backup is too large. Maximum size: 4 MB.');
- const selected=model.decode(await file.text());requireGuest();preview=selected;
+ const selected=model.decode(await file.text());requireGuest();const plan=model.plan(model.snapshot(data),selected.records);preview=selected;
  const summary=model.summary(selected.records);for(const [kind,n]of Object.entries(summary)){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=tr(labels[kind]);dd.textContent=n;dd.dir='ltr';$('backup-summary').append(dt,dd)}
  $('backup-date').textContent=new Date(selected.createdAt).toLocaleString(document.documentElement.lang||'en');
- const plan=model.plan(model.snapshot(data),selected.records);$('backup-plan').textContent=tr('New items')+': '+plan.added+' · '+tr('Existing values kept')+': '+plan.kept;
+ $('backup-plan').textContent=tr('New items')+': '+plan.added+' · '+tr('Existing values kept')+': '+plan.kept;
  $('backup-preview').hidden=false;message('Review the file, then restore missing items.');
 });
 $('backup-restore').onclick=()=>run(async()=>{requireGuest();if(!preview)return;model.apply(data,preview.records);clear();message('Backup restored. Existing items were kept.');});

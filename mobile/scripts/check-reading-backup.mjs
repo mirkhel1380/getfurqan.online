@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import {createBackupModel,MAX_BACKUP_BYTES,MAX_RECORDS} from '../src/backup-core.mjs';
 import catalog from '../src/offline-catalog.json' with {type:'json'};
 import {backupMessages} from './backup-messages.mjs';
-const context={window:{}};vm.createContext(context);vm.runInContext(fs.readFileSync(new URL('../../dist/reading-core.js',import.meta.url),'utf8'),context);
+const context={window:{}};vm.createContext(context);vm.runInContext(fs.readFileSync(new URL('../dist/reading-core.js',import.meta.url),'utf8'),context);
 const C=context.window.AFReadingCore,M=createBackupModel(C,catalog.chapters);
 const copy=x=>JSON.parse(JSON.stringify(x));
 const row=(kind,key,value)=>({kind,key,value});
