@@ -71,3 +71,7 @@ Complete downloaded surahs use Media3/ExoPlayer on Android and AVQueuePlayer on 
 ## Guest reading backup · 0.1.5 / build 6
 
 Preferences and Reading progress link to Reading backup. Export only guest bookmarks, notes, reflections, daily reads, goal and resume reference. Native export opens the system share/save sheet; browser preview downloads JSON. Restore accepts a strict versioned file up to 4 MiB/20,000 records, previews counts, and adds missing items while preserving existing values and newer edits. Account records, sessions and downloaded recitations are excluded. See `../docs/reading-backup.md` for limits and verification. The feature cannot extract data from previous apps without export support; current public 0.1.1 downloads remain unchanged.
+
+## Stable Android signing preparation
+
+The release variant now uses `online.getfurqan.app.stable`, separate from both older ephemeral-key trial packages. A manual two-job workflow builds unsigned content without secrets, then signs only in the protected `android-release` environment using an owner-created key whose public certificate must be pinned in source. Signing remains intentionally disabled until that owner setup is complete. No production key was generated or uploaded here. Instructions: `../docs/android-stable-signing.md`. Public download links and all native app versions remain unchanged.

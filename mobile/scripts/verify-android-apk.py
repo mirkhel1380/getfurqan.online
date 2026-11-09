@@ -1,6 +1,7 @@
 """Inspect the real signed APK and compare its packaged reader to this build's source."""
 import argparse, hashlib, json, os, re, subprocess, zipfile, sys
 from pathlib import Path
+from android_signing import identity
 
 def signing_fingerprint(report):
  # Recent SDKs label signers by signature scheme or API range rather than signer number.
@@ -15,18 +16,27 @@ def main():
  parser.add_argument('apk',type=Path)
  parser.add_argument('--aapt',required=True)
  parser.add_argument('--apksigner',required=True)
+ parser.add_argument('--variant',choices=['trial','stable'],default='trial')
  args=parser.parse_args()
  apk=args.apk.resolve();mobile=Path(__file__).resolve().parents[1]
  badging=subprocess.check_output([args.aapt,'dump','badging',str(apk)],text=True)
  package=re.search(r"package: name='([^']+)' versionCode='([^']+)' versionName='([^']+)'",badging)
- assert package and package.groups()==('online.getfurqan.app.trial','6','0.1.5-trial'), 'Wrong package/version'
+ stable=args.variant=='stable'
+ owner=identity() if stable else None
+ expected_package=owner['package'] if stable else 'online.getfurqan.app.trial'
+ version=json.loads((mobile/'package.json').read_text())['version']
+ code=re.search(r'versionCode\s+(\d+)',(mobile/'android/app/build.gradle').read_text())[1]
+ assert package and package.groups()==(expected_package,code,version+('' if stable else '-trial')), 'Wrong package/version'
  assert "sdkVersion:'24'" in badging and "targetSdkVersion:'36'" in badging
- assert "application-label:'Al Furqan Trial'" in badging
+ assert ("application-label:'Al Furqan'" if stable else "application-label:'Al Furqan Trial'") in badging
  signature=subprocess.check_output([args.apksigner,'verify','--verbose','--print-certs',str(apk)],text=True)
  try:certificate=signing_fingerprint(signature)
  except ValueError:
   print(signature,file=sys.stderr)
   raise
+ if stable:
+  assert certificate==owner['certificate_sha256'],'Wrong stable signing certificate'
+  assert not re.search(r'android:debuggable[^\n]*=\(type 0x12\)0xffffffff',subprocess.check_output([args.aapt,'dump','xmltree',str(apk),'AndroidManifest.xml'],text=True)),'Stable app must not be debuggable'
  manifest=json.loads((mobile/'dist/app-source-manifest.json').read_text())
  assert manifest['nativeBackgroundAudio'] is True
  assert manifest['guestReadingBackup'] is True
@@ -47,7 +57,7 @@ def main():
   assert b'FurqanAudioPlugin' in dex and b'RecitationService' in dex
   manifest_dump=subprocess.check_output([args.aapt,'dump','xmltree',str(apk),'AndroidManifest.xml'],text=True)
   assert 'RecitationService' in manifest_dump and 'android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK' in manifest_dump
-  assert not any(name.endswith(('.jks','.keystore')) for name in names),'Signing keys must never be packaged'
+  assert not any(name.endswith(('.jks','.keystore','.p12')) or 'keystore-base64' in name for name in names),'Signing keys must never be packaged'
   reader=archive.read(prefix+'reader.html').decode()
   assert 'data-view="mushaf"' in reader and 'mushaf-pages' in reader
   index=json.loads(archive.read(prefix+'content/mushaf-pages.json'))
@@ -61,8 +71,8 @@ def main():
   'minimum_android':24,'target_sdk':36,'certificate_sha256':certificate,
   'source_commit':commit,'source_workflow_run':int(os.environ['GITHUB_RUN_ID']),
   'preserved':manifest['preserved'],'mushaf_pages':604,'native_background_audio':True,'guest_only':False,'optional_account':True,'requires_network':True,
-  'trial':True,'physical_device_tested':False,'updates_original_0_1_0':False,
-  'signing':'ephemeral-debug-trial','production_signing_pending':True
+  'trial':not stable,'physical_device_tested':False,'updates_original_0_1_0':False,'updates_trial_0_1_1':False,
+  'signing':'pinned-owner-key' if stable else 'ephemeral-debug-trial','production_signing_pending':not stable
  },indent=2))
 
 if __name__=='__main__':

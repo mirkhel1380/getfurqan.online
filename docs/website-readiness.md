@@ -23,8 +23,7 @@ The initial reference-export check is retained in `docs/quran-technical-review.j
 
 1. **German/Dutch tafsir republication permission.** DIDI's human German tafsir and Dutch Al-Yaqeen As-Saadi publications exist, but their primary rights statements do not establish permission to embed/rehost them. German Al-Mukhtasar V6 also exists, but its publisher terms restrict republication. No content was scraped or relabelled from translation to tafsir. Existing German/Dutch Quran translations remain available separately.
 2. **Scholarly review.** Complete Quran proofreading and religious content certification require a qualified human review process. Structural checks do not replace it.
-3. **Search Console ownership/submission.** Sitemap and discovery metadata are prepared; no Google account/property ownership or submission was available. Plugin discovery found a third-party read-only reporting connector, not a tool establishing ownership/submitting this property. No verification token, indexed status or successful submission is invented.
-4. **Physical device/store work.** Android/iPhone testing and app-store builds/submission belong to the following app phase. No store release or mobile device test is claimed here.
+3. **Physical device/store work.** Android/iPhone testing and app-store builds/submission belong to the following app phase. No store release or mobile device test is claimed here.
 
 Primary publisher references checked:
 
@@ -37,3 +36,7 @@ Primary publisher references checked:
 - https://quranenc.com/api/v1/tafsirs/list — seven published As-Saadi editions; no German/Dutch entry.
 - https://api-docs.quran.foundation/docs/api/field-reference/ and https://github.com/quran/qf-api-docs/blob/main/docs/tutorials/fonts/font-rendering.md.
 - https://tanzil.net/download/ — unchanged reference text and source terms.
+
+## Search Console — owner-reported completion, 9 November 2026
+
+The owner completed domain verification for `getfurqan.online` and reported a live inspection with Crawl allowed = Yes, Page fetch = Successful and Indexing allowed = Yes. They subsequently supplied a Sitemaps report row for `https://getfurqan.online/sitemap.xml`, type Sitemap, submitted/read 9 November, status **Success**. This records successful sitemap submission/reading as reported from their signed-in account. No full indexing, rankings, traffic or independent account access is claimed. The public DNS A/CNAME values were checked against GitHub Pages settings and the latest public Pages workflow succeeded; no DNS or private Site audience changes were made.

@@ -36,7 +36,7 @@ jobs:
         run: bash ../scripts/bootstrap-android-gradle.sh
         working-directory: mobile/android
       - name: Build trial APK
-        run: bash ./gradlew --no-daemon testDebugUnitTest assembleDebug
+        run: bash ./gradlew --no-daemon testDebugUnitTest testReleaseUnitTest assembleDebug assembleRelease
         working-directory: mobile/android
       - name: Verify the compiled and signed APK
         shell: bash
@@ -49,6 +49,10 @@ jobs:
             --aapt "$sdk_tools/aapt" --apksigner "$sdk_tools/apksigner" > "$output/apk-verification.json"
           (cd "$output" && sha256sum Al-Furqan-Android-0.1.5.apk > SHA256SUMS.txt)
           cat "$output/apk-verification.json"
+          python3 scripts/check-unsigned-android.py android/app/build/outputs/apk/release/app-release-unsigned.apk \
+            --aapt "$sdk_tools/aapt" --apksigner "$sdk_tools/apksigner"
+          "$sdk_tools/zipalign" -c -P 16 4 android/app/build/outputs/apk/release/app-release-unsigned.apk
+          python3 scripts/check-signing-setup.py --apk "$output/Al-Furqan-Android-0.1.5.apk" --apksigner "$sdk_tools/apksigner"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: Al-Furqan-Android-trial

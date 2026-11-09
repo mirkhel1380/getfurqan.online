@@ -1,0 +1,100 @@
+name: Al Furqan Android stable signing
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: al-furqan-stable-signing
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.repository == 'mirkhel1380/getfurqan.online' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Require pinned owner identity
+        run: python3 -c 'from scripts.android_signing import identity; identity()'
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - run: npm run check
+      - run: python3 scripts/check-signing-setup.py
+      - run: npx cap sync android
+      - run: bash ../scripts/bootstrap-android-gradle.sh
+        working-directory: mobile/android
+      - run: bash ./gradlew --no-daemon testReleaseUnitTest assembleRelease
+        working-directory: mobile/android
+      - name: Check unsigned package and alignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)"
+          apk='android/app/build/outputs/apk/release/app-release-unsigned.apk'
+          python3 scripts/check-unsigned-android.py "$apk" --aapt "$sdk_tools/aapt" --apksigner "$sdk_tools/apksigner"
+          "$sdk_tools/zipalign" -c -P 16 4 "$apk"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Al-Furqan-Android-unsigned
+          path: |
+            mobile/android/app/build/outputs/apk/release/app-release-unsigned.apk
+            mobile/dist/
+          if-no-files-found: error
+          retention-days: 1
+  sign:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment: android-release
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: Al-Furqan-Android-unsigned
+          path: mobile
+      - name: Sign only with the pinned owner key
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          sdk_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)"
+          python3 scripts/sign-android-apk.py android/app/build/outputs/apk/release/app-release-unsigned.apk \
+            artifacts/stable/Al-Furqan-Android-stable.apk --apksigner "$sdk_tools/apksigner"
+      - name: Verify signed output against this commit and owner certificate
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)"
+          python3 scripts/verify-android-apk.py artifacts/stable/Al-Furqan-Android-stable.apk \
+            --variant stable --aapt "$sdk_tools/aapt" --apksigner "$sdk_tools/apksigner" > artifacts/stable/apk-verification.json
+          (cd artifacts/stable && sha256sum Al-Furqan-Android-stable.apk > SHA256SUMS.txt)
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: Al-Furqan-Android-stable
+          path: mobile/artifacts/stable/
+          if-no-files-found: error
+          retention-days: 14
