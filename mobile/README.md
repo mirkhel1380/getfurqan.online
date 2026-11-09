@@ -1,4 +1,4 @@
-# Al Furqan mobile · 0.1.4
+# Al Furqan mobile · 0.1.5
 
 Shared Android and iPhone foundation using Capacitor 8.6.0. The local app bundle contains a dedicated home screen, bottom navigation, 13 interface languages, theme controls and the existing Quran reading tools. It does not load the deployed website as its app shell.
 
@@ -15,7 +15,7 @@ npx cap sync
 
 Android requires Java 21 and Android SDK 36. Open `android/` in Android Studio, or run `bash ./gradlew assembleDebug` inside that directory. The GitHub workflow **Al Furqan Android trial** builds a debug APK and checksum, retained for 14 days. This is a trial build, not a store release. Local Android signing material and generated output must stay untracked.
 
-iOS 0.1.4/build 5 source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. The app requires iOS 16.4 or newer, aligned with the shared JavaScript build target. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
+iOS 0.1.5/build 6 source is in `ios/App/App.xcodeproj`, with Swift Package Manager dependencies. The app requires iOS 16.4 or newer, aligned with the shared JavaScript build target. Open it through `npm run ios` on macOS with Xcode 26 or newer. Device/archive signing requires the owner's actual Apple account and team. No signing identities, team IDs, provisioning profiles, or store registrations are invented here.
 
 The development application ID is `online.getfurqan.app`; the display name is **Al Furqan**. Confirm availability in the owner's store accounts before the first release. The website remains at `getfurqan.online`.
 
@@ -67,3 +67,7 @@ Downloads offers all 114 surahs with three reviewed reciters. Download explicitl
 ## Native background recitation · 0.1.4 / build 5
 
 Complete downloaded surahs use Media3/ExoPlayer on Android and AVQueuePlayer on iOS, with native queue advancement and system transport controls. Downloads has play/pause/stop and verse selection; other pages retain a small recitation bar. Browsers keep the HTML audio player. Native path/digest checks and required CI validator tests are described in `../docs/background-audio.md`. Physical-device behavior is not yet verified; public downloads are unchanged.
+
+## Guest reading backup · 0.1.5 / build 6
+
+Preferences and Reading progress link to Reading backup. Export only guest bookmarks, notes, reflections, daily reads, goal and resume reference. Native export opens the system share/save sheet; browser preview downloads JSON. Restore accepts a strict versioned file up to 4 MiB/20,000 records, previews counts, and adds missing items while preserving existing values and newer edits. Account records, sessions and downloaded recitations are excluded. See `../docs/reading-backup.md` for limits and verification. The feature cannot extract data from previous apps without export support; current public 0.1.1 downloads remain unchanged.

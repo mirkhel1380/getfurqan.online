@@ -1,6 +1,6 @@
 {
   "name": "al-furqan-mobile",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/prepare-web.mjs",
-    "check": "node scripts/check-mobile.mjs && node scripts/check-native-account.mjs && node scripts/check-offline-downloads.mjs && node scripts/check-offline-metadata.mjs && node scripts/check-audio-client.mjs",
+    "check": "node scripts/check-mobile.mjs && node scripts/check-native-account.mjs && node scripts/check-offline-downloads.mjs && node scripts/check-offline-metadata.mjs && node scripts/check-audio-client.mjs && node scripts/check-reading-backup.mjs",
     "sync": "npm run build && cap sync",
     "android": "cap open android",
     "ios": "cap open ios"
@@ -21,6 +21,7 @@
     "@capacitor/file-transfer": "2.0.6",
     "@capacitor/filesystem": "8.1.5",
     "@capacitor/ios": "8.6.0",
+    "@capacitor/share": "8.0.3",
     "@noble/hashes": "2.4.0"
   },
   "devDependencies": {

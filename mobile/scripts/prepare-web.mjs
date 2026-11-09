@@ -8,6 +8,8 @@ import { accountPages } from './account-pages.mjs';
 import { accountMessages } from './account-messages.mjs';
 import { offlineMessages } from './offline-messages.mjs';
 import { audioMessages } from './audio-messages.mjs';
+import { backupPage } from './backup-page.mjs';
+import { backupMessages } from './backup-messages.mjs';
 import { offlinePage } from './offline-page.mjs';
 
 const mobile = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -79,6 +81,7 @@ const cards = [
 const home = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Al Furqan</title><script src="/theme.js"></script>${['navigation','branding','site-language','theme'].map(x=>`<link rel="stylesheet" href="/${x}.css">`).join('')}${['site-language','navigation','reading-core','reading-data','progress-store'].map(x=>`<script defer src="/${x}.js"></script>`).join('')}</head><body>${header}${drawer}<main class="app-home"><div class="app-welcome"><p>Make room for a quiet moment.</p><span data-i18n-ignore>AL FURQAN</span></div><section class="app-hero"><span class="app-hero-label">READ · UNDERSTAND · REFLECT</span><img src="/logo-light.svg" alt="Al Furqan" width="120" height="62"><h1>Read with care. Reflect with intention.</h1><p>The Noble Quran, in three scripts</p><a class="app-read" href="/reader.html"><span>Read Quran</span>${icons.arrow}</a></section><a id="app-resume" class="app-resume" href="/reader.html" hidden><span>Continue reading →</span><bdi dir="ltr"></bdi></a><div class="app-section-head"><h2>Explore Al Furqan</h2></div><section class="app-cards" aria-label="Explore Al Furqan">${cards}</section><p class="app-note">${noteKey} <span>Private account sync is optional.</span></p><p class="app-note">Downloaded recitations can play offline. Quran text, fonts, translations and tafsir still need internet.</p><p class="app-note"><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms &amp; Conditions</a> · <a href="mailto:contact@getfurqan.online">Contact</a></p></main></body></html>`;
 await fs.writeFile(path.join(out, 'index.html'), home);
 await fs.writeFile(path.join(out,'downloads.html'),offlinePage(header,drawer));
+await fs.writeFile(path.join(out,'backup.html'),backupPage(header,drawer));
 const sync=syncSection(await fs.readFile(path.join(source,'progress.html'),'utf8'));
 for(const [name,html]of Object.entries(accountPages(header,drawer,sync)))await fs.writeFile(path.join(out,name),html);
 await fs.mkdir(path.join(out,'vendor'),{recursive:true});
@@ -105,6 +108,8 @@ async function transform(dir) {
     .replace(/<body([^>]*)>/,`<body$1><p id="app-offline" class="app-offline" role="status" hidden>${offlineKey} <a href="/downloads.html">Offline recitation</a></p>`)
     .replace(/<\/body>/,tabs+'</body>');
   if(ent.name==='listen.html')html=html.replace(/<main\b[^>]*>/,match=>match+'<a class="app-offline-shortcut" href="/downloads.html">Offline recitation →</a>');
+  html=html.replace('<a class="af-preference-link" href="/reader.html">','<a class="af-preference-link" href="/backup.html">Reading backup →</a><a class="af-preference-link" href="/reader.html">');
+  if(ent.name==='progress.html')html=html.replace(/<main\b[^>]*>/,match=>match+'<a class="app-offline-shortcut" href="/backup.html">Reading backup →</a>');
   html=html.replace(/<p class="progress-footer-note">[\s\S]*?<\/p>/,`<p class="progress-footer-note">${noteKey} <span>Private account sync is optional.</span></p>`);
   await fs.writeFile(file,html);
  }
@@ -112,17 +117,18 @@ async function transform(dir) {
 await transform(out);
 for(const [lang,values]of Object.entries(messages)){
  const file=path.join(out,'locales',lang+'.json');const dict=JSON.parse(await fs.readFile(file,'utf8'));
- Object.assign(dict,accountMessages[lang],offlineMessages[lang],audioMessages[lang]);dict[noteKey]=values[0];dict[offlineKey]=values[1];await fs.writeFile(file,JSON.stringify(dict));
+ Object.assign(dict,accountMessages[lang],offlineMessages[lang],audioMessages[lang],backupMessages[lang]);dict[noteKey]=values[0];dict[offlineKey]=values[1];await fs.writeFile(file,JSON.stringify(dict));
 }
-await fs.writeFile(path.join(out,'site-language.js'),(await fs.readFile(path.join(source,'site-language.js'),'utf8')).replace("version='20261107-downloads1'","version='20261108-backgroundaudio1'"));
+await fs.writeFile(path.join(out,'site-language.js'),(await fs.readFile(path.join(source,'site-language.js'),'utf8')).replace("version='20261107-downloads1'","version='20261109-readingbackup1'"));
 await fs.copyFile(path.join(mobile,'src/app.css'),path.join(out,'app.css'));
+await build({entryPoints:[path.join(mobile,'src/app-backup.js')],bundle:true,format:'iife',target:['chrome109','safari16.4'],outfile:path.join(out,'app-backup.js'),legalComments:'eof'});
 await build({entryPoints:[path.join(mobile,'src/native-audio.js')],bundle:true,format:'iife',target:['chrome109','safari16.4'],outfile:path.join(out,'native-audio.js'),legalComments:'eof'});
 await build({entryPoints:[path.join(mobile,'src/app-downloads-offline.js')],bundle:true,format:'iife',target:['chrome109','safari16.4'],outfile:path.join(out,'app-downloads-offline.js'),legalComments:'eof'});
 await build({entryPoints:[path.join(mobile,'src/app-native.js')],bundle:true,format:'iife',target:['chrome109','safari16.4'],outfile:path.join(out,'app-native.js'),legalComments:'eof'});
 // Record exact reuse of source Quran adapters and editions, not a claim of scholarly certification.
 const preserved=['mushaf-model.js','mushaf.js','mushaf.css','content/mushaf-pages.json','quran-integrity.js','reader.js','reader.css','editions.js','study.js','listen.js','reading-core.js','reading-data.js','progress-store.js'];
 const hashes={};for(const name of preserved){const data=await fs.readFile(path.join(source,name));if(!data.equals(await fs.readFile(path.join(out,name))))throw Error('Source changed: '+name);hashes[name]=createHash('sha256').update(data).digest('hex');}
-await fs.writeFile(path.join(out,'app-source-manifest.json'),JSON.stringify({version:JSON.parse(await fs.readFile(path.join(mobile,'package.json'),'utf8')).version,guestOnly:false,optionalAccount:true,emailFlows:'system-browser',offlineRecitation:true,nativeBackgroundAudio:true,requiresNetwork:true,preserved:hashes},null,2));
+await fs.writeFile(path.join(out,'app-source-manifest.json'),JSON.stringify({version:JSON.parse(await fs.readFile(path.join(mobile,'package.json'),'utf8')).version,guestOnly:false,optionalAccount:true,emailFlows:'system-browser',offlineRecitation:true,nativeBackgroundAudio:true,guestReadingBackup:true,requiresNetwork:true,preserved:hashes},null,2));
 // Preserve the existing outlined wordmark; no font substitutions or generated Arabic.
 const icon=await fs.readFile(path.join(source,'favicon.svg'));
 for(const [density,size]of Object.entries({mdpi:48,hdpi:72,xhdpi:96,xxhdpi:144,xxxhdpi:192})){
