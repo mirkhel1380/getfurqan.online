@@ -3,6 +3,7 @@ import argparse, hashlib, json, os, re, subprocess, zipfile, sys
 from pathlib import Path
 from android_signing import identity
 from installed_hadith import verify_installed_hadith
+from installed_quranenc import verify_installed_quranenc
 
 def signing_fingerprint(report):
  # Recent SDKs label signers by signature scheme or API range rather than signer number.
@@ -47,6 +48,7 @@ def main():
   assert archive.testzip() is None
   names=set(archive.namelist());prefix='assets/public/'
   installed_hadith=verify_installed_hadith(lambda name: archive.read(prefix+name))
+  installed_quranenc=verify_installed_quranenc(lambda name: archive.read(prefix+name))
   assert archive.read(prefix+'app-source-manifest.json')==(mobile/'dist/app-source-manifest.json').read_bytes()
   assert len(manifest['preserved'])>=13
   for name,expected in manifest['preserved'].items():
@@ -58,6 +60,7 @@ def main():
   assert any(n.endswith('classes.dex') for n in names)
   dex=b''.join(archive.read(n) for n in names if re.fullmatch(r'classes\d*\.dex',n))
   assert b'FurqanAudioPlugin' in dex and b'RecitationService' in dex
+  assert b'InstalledFontWebViewClient' in dex and b'public/installed-quranenc/uthmanic-hafs18.woff2' in dex
   manifest_dump=subprocess.check_output([args.aapt,'dump','xmltree',str(apk),'AndroidManifest.xml'],text=True)
   assert 'RecitationService' in manifest_dump and 'android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK' in manifest_dump
   assert not any(name.endswith(('.jks','.keystore','.p12')) or 'keystore-base64' in name for name in names),'Signing keys must never be packaged'
@@ -74,6 +77,7 @@ def main():
   'minimum_android':24,'target_sdk':36,'certificate_sha256':certificate,
   'source_commit':commit,'source_workflow_run':int(os.environ['GITHUB_RUN_ID']),
   'installed_hadith':installed_hadith,
+  'installed_quranenc':installed_quranenc,
   'preserved':manifest['preserved'],'mushaf_pages':604,'native_background_audio':True,'guest_only':False,'optional_account':True,'requires_network':True,
   'trial':not stable,'physical_device_tested':False,'updates_original_0_1_0':False,'updates_trial_0_1_1':False,
   'signing':'pinned-owner-key' if stable else 'ephemeral-debug-trial','production_signing_pending':not stable
