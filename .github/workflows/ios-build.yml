@@ -1,10 +1,6 @@
 name: Al Furqan iOS build
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'mobile/**'
-      - '.github/workflows/ios-build.yml'
+  # iOS work is deferred by the owner; keep its existing manual build.
   workflow_dispatch:
 permissions:
   contents: read

@@ -1,5 +1,7 @@
 # Android installed study data — preparation
 
+The interactive executor became unavailable during capture. The first GitHub source-audit run failed on the publisher's initial HTTP request with 403. No complete manifest or new APK has been validated for this preparation. Existing public downloads remain on the previously verified release. This branch is a draft until source acquisition and Android checks pass.
+
 The owner has deferred iOS. Android's installed-offline goal is still incomplete; this source must not be promoted as an entirely offline app or used to replace the public download merely because its source archives are bundled.
 
 The Android-specific build adds original QuranEnc responses for the existing selected translation and Mukhtasar keys, plus the seven selected Saadi source archives. The manifest records each file's URL, edition version, bytes and SHA-256. A translation is accepted only when all 114 chapters contain all 6,236 ordered, nonempty verse translations. Text, Arabic fields, punctuation, notes and null values remain as published. Whole Saadi archives are checked for bounded ranges, unique source identifiers and all verse references. Their blank source entries are retained, not filled or silently removed. Some existing study responses contain a blank entry alongside published text; the existing study UI can reject such responses. A complete source archive does not certify that each verse has a complete standalone explanation.

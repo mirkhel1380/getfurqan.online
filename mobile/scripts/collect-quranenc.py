@@ -1,10 +1,15 @@
 """Capture selected publisher responses verbatim and audit reference completeness."""
-import base64, concurrent.futures, hashlib, json, re, time, urllib.request, urllib.error
+import base64, concurrent.futures, hashlib, json, re, sys, time, urllib.request, urllib.error
 from pathlib import Path
 
 mobile=Path(__file__).resolve().parents[1]
 cache=mobile/'.cache/installed-quranenc'; cache.mkdir(parents=True,exist_ok=True)
 output=mobile/'artifacts/quranenc-audit'; output.mkdir(parents=True,exist_ok=True)
+def record_failure(kind,error,traceback):
+    report={'state':'failed','error_type':kind.__name__,'error':str(error),'entire_app_offline':False}
+    (output/'failure.json').write_text(json.dumps(report,indent=2)+'\n')
+    sys.__excepthook__(kind,error,traceback)
+sys.excepthook=record_failure
 counts={row['id']:row['verses_count'] for row in json.loads((mobile/'src/offline-catalog.json').read_text())['chapters']}
 translations=['english_saheeh','dari_badkhashani','pashto_rwwad','persian_ih','german_rwwad','dutch_center','french_rashid','urdu_junagarhi','turkish_rwwad','spanish_garcia','portuguese_nasr','indonesian_affairs','french_mokhtasar','spanish_mokhtasar','pashto_mokhtasar','chinese_mokhtasar','hindi_mokhtasar']
 tafsirs=['persian_saadi','arabic_saadi','urdu_saadi','turkish_saadi','indonesian_saadi','russian_saadi','swahili_saadi']
