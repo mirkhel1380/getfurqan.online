@@ -28,6 +28,9 @@ export async function verifyPreservedBundle(directory, baseline = baselineFile) 
       if (['hadith.html', 'hadith-book.html'].includes(name)) {
         bytes = Buffer.from(bytes.toString('utf8').replace('<head><script src="/app-installed-hadith.js"></script>', '<head>'));
       }
+      if (['reader.html','study.html'].includes(name)) {
+        bytes = Buffer.from(bytes.toString('utf8').replace('<head><script src="/app-installed-quranenc.js"></script>', '<head>'));
+      }
       if (createHash('sha256').update(bytes).digest('hex') !== hash) changed.push(name);
     } catch {
       changed.push(name);

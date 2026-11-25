@@ -42,6 +42,19 @@ try {
     await fs.writeFile(page, changed);
     await assert.rejects(verifyPreservedBundle(bundle, baseline), /hadith\.html/);
   }
+  const androidHook='<script src="/app-installed-quranenc.js"></script>';
+  const pages=['reader.html','study.html','other.html'];
+  await fs.writeFile(baseline,JSON.stringify({schema:1,files:Object.fromEntries(pages.map(name=>[name,createHash('sha256').update(html).digest('hex')]))}));
+  for(const name of pages)await fs.writeFile(path.join(bundle,name),html.replace('<head>','<head>'+(name==='other.html'?'':androidHook)));
+  assert.equal(await verifyPreservedBundle(bundle,baseline),3);
+  await fs.writeFile(path.join(bundle,'other.html'),html.replace('<head>','<head>'+androidHook));
+  await assert.rejects(verifyPreservedBundle(bundle,baseline),/other\.html/);
+  await fs.writeFile(path.join(bundle,'other.html'),html);
+  for(const name of ['reader.html','study.html']){
+    await fs.writeFile(path.join(bundle,name),html.replace('<head>','<head>'+androidHook).replace('Read','Changed'));
+    await assert.rejects(verifyPreservedBundle(bundle,baseline),new RegExp(name.replace('.','\\.')));
+    await fs.writeFile(path.join(bundle,name),html.replace('<head>','<head>'+androidHook));
+  }
 } finally {
   await fs.rm(root, { recursive: true, force: true });
 }

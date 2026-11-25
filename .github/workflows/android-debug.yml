@@ -2,14 +2,14 @@ name: Al Furqan Android trial
 on:
   push:
     branches: [main]
-    paths: ['mobile/android/**', 'mobile/src/**', 'mobile/scripts/**', 'mobile/package*.json', 'mobile/installed-hadith-lock.json', 'mobile/compatibility-baseline.json', '.github/workflows/android-debug.yml']
+    paths: ['mobile/android/**', 'mobile/src/**', 'mobile/scripts/**', 'mobile/package*.json', 'mobile/installed-hadith-lock.json', 'mobile/installed-quranenc-lock.json', 'mobile/compatibility-baseline.json', '.github/workflows/android-debug.yml']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   android:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: mobile
@@ -28,7 +28,12 @@ jobs:
           distribution: temurin
           java-version: '21'
       - run: npm ci --no-audit --no-fund
-      - run: npm run build
+      - name: Restore integrity-checked publisher source cache
+        uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25
+        with:
+          path: mobile/.cache/installed-quranenc
+          key: quranenc-v1-${{ hashFiles('mobile/installed-quranenc-lock.json') }}
+      - run: npm run build:android
       - run: npm run check
       - run: python3 scripts/check-android-signature.py
       - run: npx cap sync android

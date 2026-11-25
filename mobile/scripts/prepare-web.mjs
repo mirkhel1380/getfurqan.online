@@ -13,11 +13,13 @@ import { backupMessages } from './backup-messages.mjs';
 import { offlinePage } from './offline-page.mjs';
 import { verifyPreservedBundle } from './verify-preserved-bundle.mjs';
 import { installHadith } from './install-hadith.mjs';
+import { installQuranEnc } from './install-quranenc.mjs';
 
 const mobile = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const root = path.dirname(mobile);
 export const source = await fs.access(path.join(root, 'dist/reader.html')).then(() => path.join(root, 'dist')).catch(() => root);
 const out = path.join(mobile, 'dist');
+const androidOffline = process.argv.includes('--android-offline');
 const accountFiles=new Set(['auth-config.js','auth-client.js','auth.css','password-visibility.js','reading-sync-ui.js']);
 const excluded = /^(?:admin|account|auth(?:-|\.)|login|register|reset-password|forgot-password|password-visibility|contact(?:-|\.)|reading-sync)/;
 const svg = inner => `<svg viewBox="0 0 24 24" aria-hidden="true">${inner}</svg>`;
@@ -170,6 +172,14 @@ for (const name of ['hadith.html', 'hadith-book.html']) {
  const file = path.join(out, name);
  const html = await fs.readFile(file, 'utf8');
  await fs.writeFile(file, html.replace('<head>', '<head><script src="/app-installed-hadith.js"></script>'));
+}
+if (androidOffline) {
+ await installQuranEnc(out);
+ await build({entryPoints:[path.join(mobile,'src/app-installed-quranenc.js')],bundle:true,format:'iife',target:['chrome109'],outfile:path.join(out,'app-installed-quranenc.js'),legalComments:'eof'});
+ for (const name of ['reader.html','study.html']) {
+  const file=path.join(out,name),html=await fs.readFile(file,'utf8');
+  await fs.writeFile(file,html.replace('<head>','<head><script src="/app-installed-quranenc.js"></script>'));
+ }
 }
 await verifyPreservedBundle(out);
 console.log('Prepared Al Furqan mobile bundle; preserved '+preserved.length+' reading source files and the fixed compatibility checkpoint.');
