@@ -1,0 +1,45 @@
+name: Check Android offline preparation code
+on:
+  push:
+    branches: [android-offline-preparation]
+    paths: ['.github/workflows/android-offline-code-check.yml', 'mobile/src/**', 'mobile/scripts/**', 'mobile/android/**', 'mobile/package*.json']
+permissions:
+  contents: read
+jobs:
+  baseline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci --no-audit --no-fund
+      - name: Check draft source syntax
+        run: |
+          node --check src/installed-quranenc.mjs
+          node --check scripts/install-quranenc.mjs
+          node --check scripts/check-installed-quranenc.mjs
+          python3 -m py_compile scripts/collect-quranenc.py scripts/installed_quranenc.py scripts/verify-android-apk.py
+      - name: Verify unchanged shared bundle and existing functions
+        run: |
+          npm run build
+          npm run check
+      - run: npx cap sync android
+      - name: Download verified Gradle distribution
+        run: bash ../scripts/bootstrap-android-gradle.sh
+        working-directory: mobile/android
+      - name: Compile native changes and run Android unit checks
+        run: bash ./gradlew --no-daemon testDebugUnitTest testReleaseUnitTest
+        working-directory: mobile/android
