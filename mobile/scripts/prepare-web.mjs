@@ -11,6 +11,7 @@ import { audioMessages } from './audio-messages.mjs';
 import { backupPage } from './backup-page.mjs';
 import { backupMessages } from './backup-messages.mjs';
 import { offlinePage } from './offline-page.mjs';
+import { verifyPreservedBundle } from './verify-preserved-bundle.mjs';
 
 const mobile = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const root = path.dirname(mobile);
@@ -160,4 +161,6 @@ async function brandSplash(dir){
 for(const dir of ['android/app/src/main/res','ios/App/App/Assets.xcassets/Splash.imageset']){
  const absolute=path.join(mobile,dir);if(await fs.access(absolute).then(()=>true).catch(()=>false))await brandSplash(absolute);
 }
-console.log('Prepared Al Furqan mobile bundle; preserved '+preserved.length+' reading source files.');
+// Refuse to silently alter the existing reader, languages, sources or interface.
+await verifyPreservedBundle(out);
+console.log('Prepared Al Furqan mobile bundle; preserved '+preserved.length+' reading source files and the fixed compatibility checkpoint.');
