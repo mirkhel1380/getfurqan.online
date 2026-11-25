@@ -27,6 +27,8 @@ The source website files are not changed by the mobile build. App icon and splas
 
 ## Current boundaries
 
+Installed-hadith work now includes all 64 existing editions in both platform bundles, checked against the original pinned source. See [installed hadith coverage](../docs/installed-hadith.md). This is an internal build change; the public owner-signed Android 0.1.5 preview and QR destination remain unchanged. Quran/tafsir and all three reciters are not yet included for first-launch offline use.
+
 - Guest reading works without an account. Optional native email/password sign-in uses the same verified account and private reading sync as the website. Import is explicit; guest and account caches stay separate. Email signup/reset/resend open the system browser. App removal can discard local and unsynced data. Android cloud backup is disabled.
 - Quran text, font files, recitation, translations and tafsir still require their existing network sources. The shell and owned topic data are bundled. This is not a full offline Quran package.
 - Native password sign-in/profile/private sync, downloaded recitation and native background playback are implemented in the source described below. Email-link callbacks remain in the system browser. Automatic account deletion, notifications and native location permissions remain separate work. Private/admin/contact-form routes are excluded; contact opens the support email.

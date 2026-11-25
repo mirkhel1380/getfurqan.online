@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "node scripts/prepare-web.mjs",
-    "check": "node scripts/verify-preserved-bundle.mjs && node scripts/check-preserved-bundle.mjs && node scripts/check-mobile.mjs && node scripts/check-native-account.mjs && node scripts/check-offline-downloads.mjs && node scripts/check-offline-metadata.mjs && node scripts/check-audio-client.mjs && node scripts/check-reading-backup.mjs",
+    "check": "node scripts/verify-preserved-bundle.mjs && node scripts/check-preserved-bundle.mjs && node scripts/check-installed-hadith.mjs && node scripts/check-mobile.mjs && node scripts/check-native-account.mjs && node scripts/check-offline-downloads.mjs && node scripts/check-offline-metadata.mjs && node scripts/check-audio-client.mjs && node scripts/check-reading-backup.mjs",
     "sync": "npm run build && cap sync",
     "android": "cap open android",
     "ios": "cap open ios"

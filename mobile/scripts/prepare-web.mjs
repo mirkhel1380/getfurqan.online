@@ -12,6 +12,7 @@ import { backupPage } from './backup-page.mjs';
 import { backupMessages } from './backup-messages.mjs';
 import { offlinePage } from './offline-page.mjs';
 import { verifyPreservedBundle } from './verify-preserved-bundle.mjs';
+import { installHadith } from './install-hadith.mjs';
 
 const mobile = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const root = path.dirname(mobile);
@@ -162,5 +163,13 @@ for(const dir of ['android/app/src/main/res','ios/App/App/Assets.xcassets/Splash
  const absolute=path.join(mobile,dir);if(await fs.access(absolute).then(()=>true).catch(()=>false))await brandSplash(absolute);
 }
 // Refuse to silently alter the existing reader, languages, sources or interface.
+await verifyPreservedBundle(out);
+await installHadith(source, out);
+await build({entryPoints:[path.join(mobile,'src/app-installed-hadith.js')],bundle:true,format:'iife',target:['chrome109','safari16.4'],outfile:path.join(out,'app-installed-hadith.js'),legalComments:'eof'});
+for (const name of ['hadith.html', 'hadith-book.html']) {
+ const file = path.join(out, name);
+ const html = await fs.readFile(file, 'utf8');
+ await fs.writeFile(file, html.replace('<head>', '<head><script src="/app-installed-hadith.js"></script>'));
+}
 await verifyPreservedBundle(out);
 console.log('Prepared Al Furqan mobile bundle; preserved '+preserved.length+' reading source files and the fixed compatibility checkpoint.');

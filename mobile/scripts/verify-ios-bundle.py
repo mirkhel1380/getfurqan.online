@@ -7,6 +7,7 @@ import os
 import re
 import subprocess
 from pathlib import Path
+from installed_hadith import verify_installed_hadith
 
 parser = argparse.ArgumentParser()
 parser.add_argument('bundle', type=Path)
@@ -48,6 +49,7 @@ assert not config.get('server', {}).get('url')
 assert not config.get('server', {}).get('cleartext')
 assert not config.get('server', {}).get('allowNavigation')
 public = bundle / 'public'
+installed_hadith = verify_installed_hadith(lambda name: (public / name).read_bytes())
 manifest = json.loads((public / 'app-source-manifest.json').read_text())
 mobile = Path(__file__).resolve().parents[1]
 assert (public / 'app-source-manifest.json').read_bytes() == (mobile / 'dist/app-source-manifest.json').read_bytes()
@@ -81,6 +83,7 @@ print(json.dumps({
     'build': info['CFBundleVersion'],
     'source_commit': commit,
     'source_workflow_run': int(os.environ['GITHUB_RUN_ID']),
+    'installed_hadith': installed_hadith,
     'executable_sha256': hashlib.sha256(executable.read_bytes()).hexdigest(),
     'preserved': manifest['preserved'],
     'mushaf_pages': 604,

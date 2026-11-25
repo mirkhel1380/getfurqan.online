@@ -2,7 +2,7 @@ name: Al Furqan Android trial
 on:
   push:
     branches: [main]
-    paths: ['mobile/android/**', 'mobile/src/**', 'mobile/scripts/**', 'mobile/package*.json', '.github/workflows/android-debug.yml']
+    paths: ['mobile/android/**', 'mobile/src/**', 'mobile/scripts/**', 'mobile/package*.json', 'mobile/installed-hadith-lock.json', 'mobile/compatibility-baseline.json', '.github/workflows/android-debug.yml']
   workflow_dispatch:
 permissions:
   contents: read

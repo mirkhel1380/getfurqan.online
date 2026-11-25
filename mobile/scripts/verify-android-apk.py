@@ -2,6 +2,7 @@
 import argparse, hashlib, json, os, re, subprocess, zipfile, sys
 from pathlib import Path
 from android_signing import identity
+from installed_hadith import verify_installed_hadith
 
 def signing_fingerprint(report):
  # Recent SDKs label signers by signature scheme or API range rather than signer number.
@@ -45,6 +46,7 @@ def main():
  with zipfile.ZipFile(apk) as archive:
   assert archive.testzip() is None
   names=set(archive.namelist());prefix='assets/public/'
+  installed_hadith=verify_installed_hadith(lambda name: archive.read(prefix+name))
   assert archive.read(prefix+'app-source-manifest.json')==(mobile/'dist/app-source-manifest.json').read_bytes()
   assert len(manifest['preserved'])>=13
   for name,expected in manifest['preserved'].items():
@@ -71,6 +73,7 @@ def main():
   'package':package[1],'version_code':int(package[2]),'version_name':package[3],
   'minimum_android':24,'target_sdk':36,'certificate_sha256':certificate,
   'source_commit':commit,'source_workflow_run':int(os.environ['GITHUB_RUN_ID']),
+  'installed_hadith':installed_hadith,
   'preserved':manifest['preserved'],'mushaf_pages':604,'native_background_audio':True,'guest_only':False,'optional_account':True,'requires_network':True,
   'trial':not stable,'physical_device_tested':False,'updates_original_0_1_0':False,'updates_trial_0_1_1':False,
   'signing':'pinned-owner-key' if stable else 'ephemeral-debug-trial','production_signing_pending':not stable

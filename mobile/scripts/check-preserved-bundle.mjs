@@ -22,6 +22,26 @@ try {
   await assert.rejects(verifyPreservedBundle(bundle, baseline), /reader\.js/);
   await fs.symlink(baseline, path.join(bundle, 'reader.js'));
   await assert.rejects(verifyPreservedBundle(bundle, baseline), /reader\.js/);
+  await fs.rm(path.join(bundle, 'reader.js'));
+  await fs.writeFile(path.join(bundle, 'reader.js'), original);
+  const html = '<html><head></head><body><button>Read</button><button>Next</button></body></html>';
+  const hook = '<script src="/app-installed-hadith.js"></script>';
+  await fs.writeFile(baseline, JSON.stringify({schema:1, files:{
+    'reader.js':createHash('sha256').update(original).digest('hex'),
+    'hadith.html':createHash('sha256').update(html).digest('hex')
+  }}));
+  const page = path.join(bundle, 'hadith.html');
+  await fs.writeFile(page, html.replace('<head>', '<head>' + hook));
+  assert.equal(await verifyPreservedBundle(bundle, baseline), 2, 'Only the reviewed transport hook is normalized');
+  for (const changed of [
+    html.replace('Read', 'Changed'),
+    html.replace('<head>', '<head>' + hook + '<script src="https://example.com/other.js"></script>'),
+    html.replace('<head>', '<head>' + hook + hook),
+    html.replace('<button>Read</button><button>Next</button>', '<button>Next</button><button>Read</button>')
+  ]) {
+    await fs.writeFile(page, changed);
+    await assert.rejects(verifyPreservedBundle(bundle, baseline), /hadith\.html/);
+  }
 } finally {
   await fs.rm(root, { recursive: true, force: true });
 }

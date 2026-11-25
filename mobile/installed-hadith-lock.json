@@ -1,0 +1,586 @@
+{
+  "schema": 1,
+  "revision": "df57907be35291c91ad6a6691180e22ca9920784",
+  "source": "https://github.com/fawazahmed0/hadith-api",
+  "license": "https://github.com/fawazahmed0/hadith-api/blob/df57907be35291c91ad6a6691180e22ca9920784/LICENSE",
+  "collections": 10,
+  "editionCount": 64,
+  "files": [
+    {
+      "edition": "ara-abudawud",
+      "collection": "abudawud",
+      "language": "Arabic",
+      "file": "ara-abudawud.json",
+      "bytes": 7345422,
+      "sha256": "216139c5f40a8147e700d62ffa3b5b2fe45d0e034f86941a193c598c10056189",
+      "records": 5274
+    },
+    {
+      "edition": "ara-bukhari",
+      "collection": "bukhari",
+      "language": "Arabic",
+      "file": "ara-bukhari.json",
+      "bytes": 9770083,
+      "sha256": "e34a3402889ca378871da3c5984b7875c680920e93f1c8738ac7afe502179562",
+      "records": 7589
+    },
+    {
+      "edition": "ara-dehlawi",
+      "collection": "dehlawi",
+      "language": "Arabic",
+      "file": "ara-dehlawi.json",
+      "bytes": 9168,
+      "sha256": "913fa23adf0a7b62bf8a3fd80f8c8a8efc2f66ac9b7ec950443a701285193d54",
+      "records": 40
+    },
+    {
+      "edition": "ara-ibnmajah",
+      "collection": "ibnmajah",
+      "language": "Arabic",
+      "file": "ara-ibnmajah.json",
+      "bytes": 5583102,
+      "sha256": "b406e6be81588ab0ec1ddbed32f5fd95bbcdda242c460d88331e82eb5c2bc0aa",
+      "records": 4343
+    },
+    {
+      "edition": "ara-malik",
+      "collection": "malik",
+      "language": "Arabic",
+      "file": "ara-malik.json",
+      "bytes": 2150337,
+      "sha256": "088b1f354e110211da006d47e37dd8f8837368f318ed683271f0fdb0f09a3ab5",
+      "records": 1858
+    },
+    {
+      "edition": "ara-muslim",
+      "collection": "muslim",
+      "language": "Arabic",
+      "file": "ara-muslim.json",
+      "bytes": 8685140,
+      "sha256": "194073b24090c5368e4d14a3f55c9e0ef144c7437bd7e5aa83aa4d2bc54a8ea0",
+      "records": 7563
+    },
+    {
+      "edition": "ara-nasai",
+      "collection": "nasai",
+      "language": "Arabic",
+      "file": "ara-nasai.json",
+      "bytes": 7152291,
+      "sha256": "c705983c19bb089c87cd6531aff609bd94d862183ed0859115b0ff991826a956",
+      "records": 5765
+    },
+    {
+      "edition": "ara-nawawi",
+      "collection": "nawawi",
+      "language": "Arabic",
+      "file": "ara-nawawi.json",
+      "bytes": 49340,
+      "sha256": "91f559b90422005b768bb449426d87d2e6fabbb43ac3a31e5c24c50ca77465e6",
+      "records": 42
+    },
+    {
+      "edition": "ara-qudsi",
+      "collection": "qudsi",
+      "language": "Arabic",
+      "file": "ara-qudsi.json",
+      "bytes": 55258,
+      "sha256": "8645482e46b9ab145b3a8b740ffc7dc6902cc1cc0a1845da35b2057ec23bb55a",
+      "records": 40
+    },
+    {
+      "edition": "ara-tirmidhi",
+      "collection": "tirmidhi",
+      "language": "Arabic",
+      "file": "ara-tirmidhi.json",
+      "bytes": 7120806,
+      "sha256": "408028cd56329ed78edbe3ad443beb96b58e16c3e5bd49f9bc7b0eac77c8820f",
+      "records": 3998
+    },
+    {
+      "edition": "ben-abudawud",
+      "collection": "abudawud",
+      "language": "Bengali",
+      "file": "ben-abudawud.json",
+      "bytes": 8355810,
+      "sha256": "4050510ed8277d376130af107f4b32d7a4a5dfd4010867f41651f2cf55a83d4d",
+      "records": 5274
+    },
+    {
+      "edition": "ben-bukhari",
+      "collection": "bukhari",
+      "language": "Bengali",
+      "file": "ben-bukhari.json",
+      "bytes": 15073177,
+      "sha256": "8f5e574422e2c2eecaa42bcd80ce90d9a1f29c82c2143bc789965dc364d91156",
+      "records": 7589
+    },
+    {
+      "edition": "ben-ibnmajah",
+      "collection": "ibnmajah",
+      "language": "Bengali",
+      "file": "ben-ibnmajah.json",
+      "bytes": 5737950,
+      "sha256": "8263d8d1c65aa5710d0f45198a07e3c62d6e1fe1ca54e4ac54d3685e5b6bc8c9",
+      "records": 4343
+    },
+    {
+      "edition": "ben-malik",
+      "collection": "malik",
+      "language": "Bengali",
+      "file": "ben-malik.json",
+      "bytes": 3037889,
+      "sha256": "c79d3a18a0a34fa3afc11104f7c4933cd45e27b73c2814e8e02e222e6a3741a2",
+      "records": 1858
+    },
+    {
+      "edition": "ben-muslim",
+      "collection": "muslim",
+      "language": "Bengali",
+      "file": "ben-muslim.json",
+      "bytes": 11327374,
+      "sha256": "876591fcf5954af41b14a67b28f732df74713010fef3c9e0117661ed677273dd",
+      "records": 7563
+    },
+    {
+      "edition": "ben-nasai",
+      "collection": "nasai",
+      "language": "Bengali",
+      "file": "ben-nasai.json",
+      "bytes": 8045666,
+      "sha256": "11a4ad2a41ec2d259f7fd9b5959496bf5cf8424cdf0944bea197927b68d59d72",
+      "records": 5765
+    },
+    {
+      "edition": "ben-nawawi",
+      "collection": "nawawi",
+      "language": "Bengali",
+      "file": "ben-nawawi.json",
+      "bytes": 70667,
+      "sha256": "00cea983ca9023f7cd05a8e16fd032ff647ebc81446fe3fb26d4daf8b92dc69d",
+      "records": 42
+    },
+    {
+      "edition": "ben-tirmidhi",
+      "collection": "tirmidhi",
+      "language": "Bengali",
+      "file": "ben-tirmidhi.json",
+      "bytes": 8736766,
+      "sha256": "17080a67cff1fe216e8ba8eda3a628952f745027d7d682cf3101ddd56459e72c",
+      "records": 3998
+    },
+    {
+      "edition": "eng-abudawud",
+      "collection": "abudawud",
+      "language": "English",
+      "file": "eng-abudawud.json",
+      "bytes": 4311308,
+      "sha256": "f6bcf73ad96d2f28296232e201e12963e7b3dd5325572fb88365edbbfb0ecd40",
+      "records": 5274
+    },
+    {
+      "edition": "eng-bukhari",
+      "collection": "bukhari",
+      "language": "English",
+      "file": "eng-bukhari.json",
+      "bytes": 5181725,
+      "sha256": "b3a10b8d50949e86cec82b0d323ce0eae3e2f713fa2f3daa5361638feb795988",
+      "records": 7589
+    },
+    {
+      "edition": "eng-dehlawi",
+      "collection": "dehlawi",
+      "language": "English",
+      "file": "eng-dehlawi.json",
+      "bytes": 8091,
+      "sha256": "73136b1b00bf199b830f1033aac09e3144f8ce7188052af60d31e8df09a5ec00",
+      "records": 40
+    },
+    {
+      "edition": "eng-ibnmajah",
+      "collection": "ibnmajah",
+      "language": "English",
+      "file": "eng-ibnmajah.json",
+      "bytes": 3241088,
+      "sha256": "5e9479efd403e935ddcf746a709b2727d535a41fe1f496deadc8a43f1d103cd7",
+      "records": 4343
+    },
+    {
+      "edition": "eng-malik",
+      "collection": "malik",
+      "language": "English",
+      "file": "eng-malik.json",
+      "bytes": 1614960,
+      "sha256": "fb02a0ae16ebba1a658b107da3b93e72ecb59c2acd871819e2b1f3bd2e90d27b",
+      "records": 1858
+    },
+    {
+      "edition": "eng-muslim",
+      "collection": "muslim",
+      "language": "English",
+      "file": "eng-muslim.json",
+      "bytes": 4296152,
+      "sha256": "2ef51a2a1980fb91e395fbf1580cc9c9413297f54bb8cad271e1499417299488",
+      "records": 7563
+    },
+    {
+      "edition": "eng-nasai",
+      "collection": "nasai",
+      "language": "English",
+      "file": "eng-nasai.json",
+      "bytes": 4033923,
+      "sha256": "4f2aaca4229b96210fdaa887915c69ba99dda8726816856cc8660e996b6b3a1f",
+      "records": 5765
+    },
+    {
+      "edition": "eng-nawawi",
+      "collection": "nawawi",
+      "language": "English",
+      "file": "eng-nawawi.json",
+      "bytes": 36009,
+      "sha256": "3c8124e3f633a576d1fb6e6a9cb352e162436781b15bc78188c28203ff08743d",
+      "records": 42
+    },
+    {
+      "edition": "eng-qudsi",
+      "collection": "qudsi",
+      "language": "English",
+      "file": "eng-qudsi.json",
+      "bytes": 41399,
+      "sha256": "4d9a35148af7b04ec41f6cc3dbaf0bdb82d2f2c93d03052ee229e86dd0f6c53c",
+      "records": 40
+    },
+    {
+      "edition": "eng-tirmidhi",
+      "collection": "tirmidhi",
+      "language": "English",
+      "file": "eng-tirmidhi.json",
+      "bytes": 3124797,
+      "sha256": "f64f1a5e6f2614e164e3b10138412af322d3959011bf84d67f428f79b3858afb",
+      "records": 3998
+    },
+    {
+      "edition": "fra-abudawud",
+      "collection": "abudawud",
+      "language": "French",
+      "file": "fra-abudawud.json",
+      "bytes": 4626460,
+      "sha256": "62ab7b58f5de8d21e39ff7f67125cea4204f8fa8d87f00ee5f68a8cc09eab3b9",
+      "records": 5274
+    },
+    {
+      "edition": "fra-bukhari",
+      "collection": "bukhari",
+      "language": "French",
+      "file": "fra-bukhari.json",
+      "bytes": 5555257,
+      "sha256": "7495f355e3104bc7b45b629a42edf4f74595006c7f3e6851098df8a9924fa2ff",
+      "records": 7589
+    },
+    {
+      "edition": "fra-dehlawi",
+      "collection": "dehlawi",
+      "language": "French",
+      "file": "fra-dehlawi.json",
+      "bytes": 8352,
+      "sha256": "f9d1afb3587e31a3661ab687701b5451e934ad2f16de8f6d666db93d2c51ab2c",
+      "records": 40
+    },
+    {
+      "edition": "fra-ibnmajah",
+      "collection": "ibnmajah",
+      "language": "French",
+      "file": "fra-ibnmajah.json",
+      "bytes": 3294581,
+      "sha256": "1976e5127f5f66245b25d3e025b157f05cf7a342c3b37eccaaac032845b83845",
+      "records": 4343
+    },
+    {
+      "edition": "fra-malik",
+      "collection": "malik",
+      "language": "French",
+      "file": "fra-malik.json",
+      "bytes": 1512320,
+      "sha256": "2b4e3f4cc97077dc20fb1ba5ccd22fd0c49c9a0d9e34ebb3a6fadae6e7d77ba8",
+      "records": 1899
+    },
+    {
+      "edition": "fra-muslim",
+      "collection": "muslim",
+      "language": "French",
+      "file": "fra-muslim.json",
+      "bytes": 4396150,
+      "sha256": "d0b326cc1ba281dcc3ec182045de6590998606a84c140b43ac902caba5103a5e",
+      "records": 7563
+    },
+    {
+      "edition": "fra-nasai",
+      "collection": "nasai",
+      "language": "French",
+      "file": "fra-nasai.json",
+      "bytes": 4168612,
+      "sha256": "5d07b8b6182c20e703a25fe61bf4a58e3118b6950fcc76e9d1d97d278148078c",
+      "records": 5765
+    },
+    {
+      "edition": "fra-nawawi",
+      "collection": "nawawi",
+      "language": "French",
+      "file": "fra-nawawi.json",
+      "bytes": 32193,
+      "sha256": "26c9a30a49c886d5bd70760381711cca4a65d87e9d3e442351fe330fa4f361b0",
+      "records": 42
+    },
+    {
+      "edition": "fra-qudsi",
+      "collection": "qudsi",
+      "language": "French",
+      "file": "fra-qudsi.json",
+      "bytes": 36432,
+      "sha256": "8ffd1bbf6e9eda3427c0d3c588dcca8ef4e5dee32ce7f1eeaaf29af6b1f1439a",
+      "records": 40
+    },
+    {
+      "edition": "ind-abudawud",
+      "collection": "abudawud",
+      "language": "Indonesian",
+      "file": "ind-abudawud.json",
+      "bytes": 5615860,
+      "sha256": "43eeef2a9b020219075bbb7ab2cbdb4d68c4e0a4158d12a7cb2b1da081712b51",
+      "records": 5274
+    },
+    {
+      "edition": "ind-bukhari",
+      "collection": "bukhari",
+      "language": "Indonesian",
+      "file": "ind-bukhari.json",
+      "bytes": 6911457,
+      "sha256": "a3005e17d00578bc4937f2c43575c2a3883c5f848c25ca66b064d92f5144bafb",
+      "records": 7589
+    },
+    {
+      "edition": "ind-ibnmajah",
+      "collection": "ibnmajah",
+      "language": "Indonesian",
+      "file": "ind-ibnmajah.json",
+      "bytes": 4305604,
+      "sha256": "57d24d566170dfbdf772264cf2ba20ff113f10c4c43a41190b502f479df56876",
+      "records": 4343
+    },
+    {
+      "edition": "ind-malik",
+      "collection": "malik",
+      "language": "Indonesian",
+      "file": "ind-malik.json",
+      "bytes": 1201323,
+      "sha256": "9ae098a8f282d99fa858dda064ae6578bc64a54906aa9b59490b5b2000b36772",
+      "records": 1859
+    },
+    {
+      "edition": "ind-muslim",
+      "collection": "muslim",
+      "language": "Indonesian",
+      "file": "ind-muslim.json",
+      "bytes": 6021691,
+      "sha256": "a330ce352dbe509f3f40305daa78b0ed8c4fcb0f8fd3ea96cd7251c267509c5a",
+      "records": 7563
+    },
+    {
+      "edition": "ind-nasai",
+      "collection": "nasai",
+      "language": "Indonesian",
+      "file": "ind-nasai.json",
+      "bytes": 5369030,
+      "sha256": "a461e7f1cf64fb0d908a27b5947eb5218363b7bdea872f98c317fddc72eb4b3e",
+      "records": 5765
+    },
+    {
+      "edition": "ind-tirmidhi",
+      "collection": "tirmidhi",
+      "language": "Indonesian",
+      "file": "ind-tirmidhi.json",
+      "bytes": 4864720,
+      "sha256": "0b405ba8df14d7d90923f3135ce2a3327d827fdbbb036cc0f9ea2979ae280c19",
+      "records": 3998
+    },
+    {
+      "edition": "rus-abudawud",
+      "collection": "abudawud",
+      "language": "Russian",
+      "file": "rus-abudawud.json",
+      "bytes": 5576818,
+      "sha256": "a26df39e3ef4f780bd8f8303378af33d4d20584a6fccb6ed0dab852f6bc97c90",
+      "records": 5274
+    },
+    {
+      "edition": "rus-bukhari",
+      "collection": "bukhari",
+      "language": "Russian",
+      "file": "rus-bukhari.json",
+      "bytes": 8340704,
+      "sha256": "8120582acfcf6b860b336c1aba7ffa8f79a108066f4556e7d482f40923c0bbd5",
+      "records": 7590
+    },
+    {
+      "edition": "rus-muslim",
+      "collection": "muslim",
+      "language": "Russian",
+      "file": "rus-muslim.json",
+      "bytes": 3190696,
+      "sha256": "5111b684e5e39497472fbe28f0d94a9f58d39b06ca7950631c87f8b753943aa0",
+      "records": 7563
+    },
+    {
+      "edition": "tam-bukhari",
+      "collection": "bukhari",
+      "language": "Tamil",
+      "file": "tam-bukhari.json",
+      "bytes": 16523485,
+      "sha256": "4d3a003e58c9e06ecba1887582602e0a126631477dfbd9ae3fb9c631b5959ffd",
+      "records": 7589
+    },
+    {
+      "edition": "tam-muslim",
+      "collection": "muslim",
+      "language": "Tamil",
+      "file": "tam-muslim.json",
+      "bytes": 7237373,
+      "sha256": "8726a6f940c3af60c9c3a61ad081d06a7dff99c840363f014834532730fea2d2",
+      "records": 7563
+    },
+    {
+      "edition": "tur-abudawud",
+      "collection": "abudawud",
+      "language": "Turkish",
+      "file": "tur-abudawud.json",
+      "bytes": 4945471,
+      "sha256": "7ce0518f387a585e64d85fda644135341a4b2b7df5a8138601fb848ad268d5d5",
+      "records": 5274
+    },
+    {
+      "edition": "tur-bukhari",
+      "collection": "bukhari",
+      "language": "Turkish",
+      "file": "tur-bukhari.json",
+      "bytes": 10528373,
+      "sha256": "b79f407cecbf587bfcb86e5427cec70fc804cdb8da9b555e6f8f92764d3756cb",
+      "records": 7589
+    },
+    {
+      "edition": "tur-ibnmajah",
+      "collection": "ibnmajah",
+      "language": "Turkish",
+      "file": "tur-ibnmajah.json",
+      "bytes": 5164419,
+      "sha256": "50b5afbcac685133674fe9472fe74a14524233c319391a5bae9e2e6fce7cb2db",
+      "records": 4343
+    },
+    {
+      "edition": "tur-malik",
+      "collection": "malik",
+      "language": "Turkish",
+      "file": "tur-malik.json",
+      "bytes": 1054639,
+      "sha256": "7c157046569ea83eebe59b742c10dafc91b9e03a958d21703f55e77e0a66a28b",
+      "records": 1858
+    },
+    {
+      "edition": "tur-muslim",
+      "collection": "muslim",
+      "language": "Turkish",
+      "file": "tur-muslim.json",
+      "bytes": 7114569,
+      "sha256": "7744f5f7b969e05d7ecaeabdac20aaf093d3b82adafd0614c3f952a4f2acfec7",
+      "records": 7563
+    },
+    {
+      "edition": "tur-nasai",
+      "collection": "nasai",
+      "language": "Turkish",
+      "file": "tur-nasai.json",
+      "bytes": 2279748,
+      "sha256": "7ca24f251d86de25696a7704a3fa7ea598576afb5a0ea6487d7d693d39860f1d",
+      "records": 5765
+    },
+    {
+      "edition": "tur-nawawi",
+      "collection": "nawawi",
+      "language": "Turkish",
+      "file": "tur-nawawi.json",
+      "bytes": 26639,
+      "sha256": "c79cdfa73ea45ecaed2bc86eb900e01edb18f4f6227bbb2e620d97a8fd16c5dc",
+      "records": 42
+    },
+    {
+      "edition": "tur-tirmidhi",
+      "collection": "tirmidhi",
+      "language": "Turkish",
+      "file": "tur-tirmidhi.json",
+      "bytes": 4132392,
+      "sha256": "4339f0f641d8cad4ee80cf950df409ef67c74b0f162e5d1dfded59066612df8e",
+      "records": 3998
+    },
+    {
+      "edition": "urd-abudawud",
+      "collection": "abudawud",
+      "language": "Urdu",
+      "file": "urd-abudawud.json",
+      "bytes": 6068981,
+      "sha256": "44b23f53065a4e4e8128f76aebaf129292410ad323897a8eeb4c5f82fceaa8bd",
+      "records": 5274
+    },
+    {
+      "edition": "urd-bukhari",
+      "collection": "bukhari",
+      "language": "Urdu",
+      "file": "urd-bukhari.json",
+      "bytes": 9945297,
+      "sha256": "9b7a2741bc92714c7042e035749aaed1635168e9be72f8861020dc8c59ce873e",
+      "records": 7589
+    },
+    {
+      "edition": "urd-ibnmajah",
+      "collection": "ibnmajah",
+      "language": "Urdu",
+      "file": "urd-ibnmajah.json",
+      "bytes": 4342459,
+      "sha256": "4dfa5332cb7cc1fafab2852c981798ed6a26718aeb6f23d267b810e640e6b7b5",
+      "records": 4343
+    },
+    {
+      "edition": "urd-malik",
+      "collection": "malik",
+      "language": "Urdu",
+      "file": "urd-malik.json",
+      "bytes": 1498465,
+      "sha256": "eab4ebc8eedc5e27a5d41835706d314bb48531fbd77549f64503c9f6ebc18bc2",
+      "records": 1889
+    },
+    {
+      "edition": "urd-muslim",
+      "collection": "muslim",
+      "language": "Urdu",
+      "file": "urd-muslim.json",
+      "bytes": 7657637,
+      "sha256": "5fb1f4c4a97a3ee282768ed48d7d97bc9dbc4223ac218307449849c1f7a09049",
+      "records": 7564
+    },
+    {
+      "edition": "urd-nasai",
+      "collection": "nasai",
+      "language": "Urdu",
+      "file": "urd-nasai.json",
+      "bytes": 4672980,
+      "sha256": "20259f08c643c56a8274416f21591ff880c685f4fa3e5712275750cca15bc5ae",
+      "records": 5765
+    },
+    {
+      "edition": "urd-tirmidhi",
+      "collection": "tirmidhi",
+      "language": "Urdu",
+      "file": "urd-tirmidhi.json",
+      "bytes": 5751781,
+      "sha256": "e9e8b32660a8a9c4e25c6c344149e8c9429e1aa90e2d5414029b9727ffb53006",
+      "records": 3998
+    }
+  ]
+}
